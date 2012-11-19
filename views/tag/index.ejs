@@ -1,0 +1,10 @@
+<h2><%= title %> </h2>
+<ul>
+  <li><a href="/project/"> project </a></li>
+</ul>
+
+<ol>
+<% tags.forEach(function(tag){ %>
+  <li><a href="/tag/<%= tag._id%>"><%= tag %> </a></li>
+<% }) %>
+<ol>
