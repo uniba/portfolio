@@ -4,8 +4,7 @@
  */
 
 var mongoose = require('mongoose')
-  , config = require('../config').mongodb
-  , host = process.env.MONGOLAB_URI || config.host;
+  , config = require('../config').mongodb;
 
 /**
  * Expose mongoose.
@@ -17,7 +16,9 @@ exports.mongoose = mongoose;
  * Expose mongoose connection.
  */
 
-var db = exports.db = mongoose.createConnection(host, config.database);
+var db = exports.db = process.env.MONGOLAB_URI
+  ? mongoose.createConnection(process.env.MONGOLAB_URI)
+  : mongoose.createConnection(config.host, config.database);
 
 /**
  * Expose models.
