@@ -1,5 +1,5 @@
 var partials = require('express-partials')
-  , schema = require('../models')
+  , schema = require('../../models')
   , Project = schema.Project
   , Tag = schema.Tag;
 
@@ -9,7 +9,7 @@ exports.index = function(req, res){
     .exec(function(err,tags){
       if(err) return res.send('error');
       
-      res.render('tag/index.ejs'
+      res.render('admin/tag/index'
         ,{title:"tag list",tags:tags}
       );
       
@@ -35,7 +35,7 @@ exports.show = function(req, res){
     .where('tags').in([tag.name])
     .exec(function(err,projects){
       if(err) return res.send('error: %s',err);
-      res.render('tag/show.ejs',
+      res.render('admin/tag/show',
         {title:"tag show:"+tag.name
         , tag: tag 
         , projects: projects
