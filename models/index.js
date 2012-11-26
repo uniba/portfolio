@@ -16,7 +16,9 @@ exports.mongoose = mongoose;
  * Expose mongoose connection.
  */
 
-var db = exports.db = mongoose.createConnection(config.host, config.database);
+var db = exports.db = process.env.MONGOLAB_URI
+  ? mongoose.createConnection(process.env.MONGOLAB_URI)
+  : mongoose.createConnection(config.host, config.database);
 
 /**
  * Expose models.
