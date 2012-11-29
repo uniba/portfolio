@@ -1,15 +1,14 @@
+
 var Schema = require('mongoose').Schema
-, config = require('../config');
-// , schema = require('./index')
-// , Project = schema.Project;
+  , config = require('../config');
 
 var ProjectSchema = module.exports = new Schema({
-  title: {type:String, unique: true },
-  description: String,
-  tags: Array,
-  images: Array,
-  youtubes: Array,
-  vimeos: Array
+    title: { type: String, unique: true }
+  , description: String
+  , tags: Array
+  , images: Array
+  , youtubes: Array
+  , vimeos: Array
 });
 
 // ProjectSchema.statics.newProject = function(){
