@@ -1,4 +1,7 @@
 
+exports.projects = require('./projects');
+exports.tags = require('./tags');
+
 /*
  * GET home page.
  */
