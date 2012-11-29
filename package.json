@@ -14,7 +14,8 @@
     "colors": "0.6.0-1",
     "express-partials": "0.0.6",
     "consolidate": "~0.5.0",
-    "jade": "~0.27.7"
+    "jade": "~0.27.7",
+    "base64id": "0.1.0"
   },
   "devDependencies": {
     "node-dev": "~0.2.9"

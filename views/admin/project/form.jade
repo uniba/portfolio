@@ -1,0 +1,25 @@
+extends ../layout
+block content
+
+  form(method='POST', action='/admin/project/#{project._id}', enctype='multipart/form-data')
+    input(type='hidden', name='_method', value=method)
+    fieldset
+      div
+        label title:
+        input(type='text', name='project[title]', value= project.title)
+
+      div
+        label description:
+        textarea(name='project[description]', cols=40, rows=4, value= project.description)
+
+      div
+        label tags:
+        each tag in project.tags
+          input(type='text', name='project[tags]', value= tag)
+
+      div
+        label images:
+        each image in project.images
+          input(type='file', name='project[images]', acccept='image/*')
+      
+      input(type='submit', value='submit')

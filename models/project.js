@@ -4,9 +4,12 @@ var Schema = require('mongoose').Schema
 // , Project = schema.Project;
 
 var ProjectSchema = module.exports = new Schema({
-  title: String ,
-  description: String ,
-  tags: Array
+  title: {type:String, unique: true },
+  description: String,
+  tags: Array,
+  images: Array,
+  youtubes: Array,
+  vimeos: Array
 });
 
 // ProjectSchema.statics.newProject = function(){
