@@ -1,25 +1,51 @@
 extends ../layout
-
 block content
+
   form(method='POST', action='/admin/projects/#{project._id}', enctype='multipart/form-data')
     input(type='hidden', name='_method', value=method)
     fieldset
-      div
-        label title:
-        input(type='text', name='project[title]', value= project.title)
+      div(class='control-group')
+        label(class='control-label') title:
+        div(class='controls')
+          input(type='text', name='project[title]', value= project.title)
 
-      div
-        label description:
-        textarea(name='project[description]', cols=40, rows=4, value= project.description)
+      div(class='control-group')
+        label(class='control-label') description:
+        div(class='controls')
+          textarea(name='project[description]', cols=40, rows=4, value= project.description)
 
-      div
-        label tags:
-        each tag in project.tags
-          input(type='text', name='project[tags]', value= tag)
+      div(class='control-group')
+        label(class='control-label') tags:
+        div(class='controls')
+          each tag in project.tags
+            input(type='text', name='project[tags]', value= tag)
 
-      div
-        label images:
-        each image in project.images
-          input(type='file', name='project[images]', acccept='image/*')
+      div(class='control-group')
+        label(class='control-label') youtubes:
+        i(class="icon-warning-sign")
+        span(class="help-block") http://www.youtube.com/watch?v=V6_5waGGjXE
+        span(class="help-block") の 
+          span(class='label label-important') V6_5waGGjXE
+          を入力してください
+        div(class='controls')
+          each youtube in project.youtubes
+            input(type='text', name='project[youtubes]', value= youtube)
+
+      div(class='control-group')
+        label(class='control-label') vimeos:
+        i(class="icon-warning-sign")
+        span(class="help-block") http://vimeo.com/42261942
+        span(class="help-block") の 
+          span(class='label label-important') 42261942
+          を入力してください
+        div(class='controls')
+          each vimeo in project.vimeos
+            input(type='text', name='project[vimeos]', value= vimeo)
+
+      div(class='control-group')
+        label(class='control-label') images:
+        div(class='controls')
+          each image in project.images
+            input(type='file', name='project[images]', acccept='image/*')
       
-      input(type='submit', value='submit')
+      input(type='submit', value='submit', class='btn')

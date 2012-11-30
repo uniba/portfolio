@@ -1,5 +1,4 @@
 extends ../layout
-
 block content
   h2= title
   ul
@@ -10,12 +9,20 @@ block content
   table
     caption Project List
     tr
-      th json
+      th title
+      th _id
+      th vimeos
+      th youtubes
+      th tags 
       th show
       th edit
       each project in projects
         tr
-          td= project
+          td= project.title
+          td= project._id
+          td= project.vimeos
+          td= project.youtubes
+          td= project.tags
           td
             a(href='/admin/projects/#{project._id}') show
           td
