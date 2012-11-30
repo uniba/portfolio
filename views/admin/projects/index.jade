@@ -1,11 +1,12 @@
 extends ../layout
+
 block content
   h2= title
   ul
     li
-      a(href='/admin/tag/') tag
+      a(href='/admin/tags/') tag
     li
-      a(href='/admin/project/new') new project
+      a(href='/admin/projects/new') new project
   table
     caption Project List
     tr
@@ -16,6 +17,6 @@ block content
         tr
           td= project
           td
-            a(href='/admin/project/#{project._id}') show
+            a(href='/admin/projects/#{project._id}') show
           td
-            a(href='/admin/project/#{project._id}/edit') edit
+            a(href='/admin/projects/#{project._id}/edit') edit

@@ -1,12 +1,13 @@
 extends ../layout
+
 block content
   h2= title
   ul
     li
-      a(href='/admin/project/') project
+      a(href='/admin/projects/') project
 
   ol
-    - tags.forEach(function(tag){
-      li 
-        a(href='/admin/tag/#{tag._id}')= tag
-    - })
+    - tags.forEach(function(tag) {
+        li
+          a(href='/admin/tags/#{tag._id}')= tag
+    - });

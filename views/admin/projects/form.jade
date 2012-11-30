@@ -1,7 +1,7 @@
 extends ../layout
-block content
 
-  form(method='POST', action='/admin/project/#{project._id}', enctype='multipart/form-data')
+block content
+  form(method='POST', action='/admin/projects/#{project._id}', enctype='multipart/form-data')
     input(type='hidden', name='_method', value=method)
     fieldset
       div
