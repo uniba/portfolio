@@ -9,7 +9,7 @@ exports.index = function(req, res) {
     .sort('-created')
     .exec(function(err, tags) {
       if (err) return res.send('error');
-      res.render('admin/tag/index', { title: 'tag list', tags:tags });
+      res.render('admin/tags/index', { title: 'tag list', tags:tags });
     });
 };
 
@@ -30,7 +30,7 @@ exports.show = function(req, res) {
       .where('tags').in([tag.name])
       .exec(function(err, projects) {
         if (err) return res.send('error: %s',err);
-        res.render('admin/tag/show', {
+        res.render('admin/tags/show', {
             title: 'tag show:' + tag.name
           , tag: tag 
           , projects: projects

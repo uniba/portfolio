@@ -1,4 +1,5 @@
 
+exports.admin = require('./admin');
 exports.projects = require('./projects');
 exports.tags = require('./tags');
 
@@ -7,5 +8,5 @@ exports.tags = require('./tags');
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  res.render('index.ejs', { title: 'Express' });
 };

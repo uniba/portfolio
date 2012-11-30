@@ -12,9 +12,6 @@ var express = require('express')
   , pad = require('pad-component')
   , colors = require('colors')
   , routes = require('./routes')
-  , admin = require('./routes/admin')
-  , projects = require('./routes/admin/projects')
-  , tags = require('./routes/admin/tags')
   , config = require('./config');
 
 var app = express()
@@ -48,13 +45,11 @@ app.configure('development', function() {
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
-app.resource('projects', routes.projects);
-app.resource('tags', routes.tags);
-
-app.get('/admin', admin)
-app.resource('admin/project', projects);
-app.resource('admin/tag', tags);
+app.get('/projects', routes.projects.index);
+app.get('/projects/:id', routes.projects.show);
+app.get('/admin', routes.admin.index);
+app.resource('admin/projects', routes.admin.projects);
+app.resource('admin/tags', routes.admin.tags);
 
 //console.log(app.routes.get[2].callbacks[0].constructor.name);
 

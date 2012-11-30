@@ -11,7 +11,7 @@ exports.index = function(req, res) {
     .sort('-created')
     .exec(function(err, projects) {
       if (err) return res.send(500);
-      res.render('admin/project/index', { title: 'project list', projects: projects });
+      res.render('admin/projects/index', { title: 'project list', projects: projects });
     });
 };
 
@@ -24,7 +24,7 @@ exports.new = function(req, res){
     , images: ['', '', '']
   };
 
-  res.render('admin/project/form', {title: 'project new', project: project, method: 'post' });
+  res.render('admin/projects/form', {title: 'project new', project: project, method: 'post' });
 };
 
 //TODO call とか applyとか
@@ -83,7 +83,7 @@ exports.create = function(req, res) {
       console.log('err:%s', err);
       return res.send(500);
     }
-    res.redirect('/admin/project');
+    res.redirect('/admin/projects');
   });
 };
 
@@ -92,7 +92,7 @@ exports.show = function(req, res) {
   
   Project.findOne({ _id: projectId }, function(err, project) {
     if (err) return res.send('error: %s',err);
-    res.render('admin/project/show', { title: project.title, project: project });
+    res.render('admin/projects/show', { title: project.title, project: project });
   });
 };
 
@@ -101,7 +101,7 @@ exports.edit = function(req, res) {
   
   Project.findOne({ _id: projectId }, function(err, project) {
     if (err) return res.send('error: %s', err);
-    res.render('admin/project/form', { title: project.title, project: project, method: 'put' });
+    res.render('admin/projects/form', { title: project.title, project: project, method: 'put' });
   });
 };
 
