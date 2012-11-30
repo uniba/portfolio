@@ -1,4 +1,6 @@
-extends ../layout
+- if (layout)
+  extends ../layout
+
 block content
 
   form(method='POST', action='/admin/projects/#{project._id}', enctype='multipart/form-data')
