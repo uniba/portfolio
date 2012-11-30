@@ -12,7 +12,8 @@ block content
       div(class='control-group')
         label(class='control-label') description:
         div(class='controls')
-          textarea(name='project[description]', cols=40, rows=4, value= project.description)
+          textarea(name='project[description]', cols=40, rows=4)
+            =project.description
 
       div(class='control-group')
         label(class='control-label') tags:

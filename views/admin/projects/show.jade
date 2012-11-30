@@ -1,12 +1,15 @@
 extends ../layout
 block content
-  table 
+  table(class='table table-bordered') 
     tr
       th title
       th tags 
+      th description
     tr
       td= project.title
       td= project.tags
+      td= project.description
+
   div 
     h3 youtubes
     -project.youtubes.forEach(function(youtube){
