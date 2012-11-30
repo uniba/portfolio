@@ -10,6 +10,8 @@ var express = require('express')
   , cons = require('consolidate')
   , resource = require('express-resource')
   , pad = require('pad-component')
+  , stylus = require('stylus')
+  , nib = require('nib')
   , colors = require('colors')
   , routes = require('./routes')
   , config = require('./config');
@@ -37,6 +39,15 @@ app.configure(function() {
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.compress());
+  
+  app.use(stylus.middleware({
+      src: path.join(__dirname, 'public')
+    , compile: function(str, path) {
+        return stylus(str)
+          .set('filename', path)
+          .use(nib());
+      }
+  }));
   
   if ('development' === app.get('env')) {
     app.use(function(req, res, next) {
