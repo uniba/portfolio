@@ -26,3 +26,4 @@ var db = exports.db = process.env.MONGOLAB_URI
 
 exports.Project = db.model('Project', require('./project'));
 exports.Tag = db.model('Tag', require('./tag'));
+exports.Content = db.model('Content', require('./content'));

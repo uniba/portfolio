@@ -27,7 +27,7 @@ app.configure(function() {
   var user = process.env.ADMIN_USERNAME || 'user'
     , pass = process.env.ADMIN_PASSWORD || 'pass'
     , basicAuth = express.basicAuth(user, pass);
-
+  
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -43,6 +43,21 @@ app.configure(function() {
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.compress());
+  
+  app.use(function(req, res, next) {
+    var render = res.render;
+    
+    res.render = function() {
+      var args = [].slice.call(arguments);
+      args[1] = args[1] || {};
+      args[1].layout = false // !!res.req.get('X-PJAX');
+      args[1].pretty = true;
+      console.log(args[1]);
+      return render.apply(res, args);
+    };
+    
+    next();
+  });
   
   app.use(stylus.middleware({
       src: path.join(__dirname, 'public')

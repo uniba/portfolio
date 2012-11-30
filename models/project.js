@@ -1,20 +1,13 @@
 
 var Schema = require('mongoose').Schema
-  , config = require('../config');
+  , ContentSchema = require('./content');
 
 var ProjectSchema = module.exports = new Schema({
     title: { type: String, unique: true }
+  , _contents: { type: Schema.Types.ObjectId, ref: 'Content' }
   , description: String
-  , tags: Array
   , images: Schema.Types.Mixed
   , youtubes: Array
   , vimeos: Array
+  , tags: [{ type: String }]
 });
-
-// ProjectSchema.statics.newProject = function(){
-//   var project =  new Project({
-//     title: "",
-//     description: ""
-//   });
-//   return project
-// }
