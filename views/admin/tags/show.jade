@@ -1,8 +1,17 @@
 extends ../layout
 block content
   h2= title
-  div
-    ol
-      -projects.forEach(function(project){
-        li= project
-      -}) 
+  table
+    th title
+    th _id
+    th show
+    th edit
+    
+    each project in projects
+      tr
+        td= project.title
+        td= project._id        
+        td
+          a(href='/admin/projects/#{project._id}') show
+        td
+          a(href='/admin/projects/#{project._id}/edit') edit
