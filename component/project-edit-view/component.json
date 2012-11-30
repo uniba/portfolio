@@ -1,0 +1,10 @@
+{
+  "name": "project-edit-view",
+  "description": "Project edit view component",
+  "dependencies": {
+    "component/view": "*",
+    "component/classes": "*",
+    "component/domify": "*"
+  },
+  "scripts": ["index.js", "template.js"]
+}

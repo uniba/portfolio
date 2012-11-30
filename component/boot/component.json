@@ -2,8 +2,11 @@
   "name": "boot",
   "description": "Main app boot component",
   "dependencies": {
+    "component/zepto": "*",
     "visionmedia/page.js": "*",
-    "component/pillbox": "*"
+    "component/pillbox": "*",
+    "component/dropload": "*"
   },
-  "scripts": ["index.js"]
+  "scripts": ["index.js", "admin.js", "main.js"],
+  "local": ["project-edit-view"]
 }

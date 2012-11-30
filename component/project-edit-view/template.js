@@ -1,0 +1,1 @@
+module.exports = '<div class="project-edit-view">\n\n\n</div>\n';
