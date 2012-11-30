@@ -1,0 +1,8 @@
+{
+  "name": "project-model",
+  "description": "Project model component",
+  "dependencies": {
+    "component/model": "*"
+  },
+  "scripts": ["index.js"]
+}

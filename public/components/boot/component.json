@@ -1,9 +1,0 @@
-{
-  "name": "boot",
-  "description": "Main app boot component",
-  "dependencies": {
-    "visionmedia/page.js": "*",
-    "component/pillbox": "*"
-  },
-  "scripts": ["index.js"]
-}

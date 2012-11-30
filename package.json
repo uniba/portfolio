@@ -16,7 +16,9 @@
     "consolidate": "~0.5.0",
     "jade": "~0.27.7",
     "base64id": "0.1.0",
-    "component": "~0.9.1"
+    "component": "~0.9.1",
+    "nib": "~0.9.0",
+    "stylus": "~0.31.0"
   },
   "devDependencies": {
     "node-dev": "~0.2.9"
