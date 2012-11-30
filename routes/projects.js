@@ -1,6 +1,5 @@
 
-var partials = require('express-partials')
-  , models = require('../models')
+var models = require('../models')
   , Project = models.Project
   , Tag = models.Tag;
 

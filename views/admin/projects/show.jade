@@ -1,0 +1,33 @@
+extends ../layout
+block content
+  table 
+    tr
+      th title
+      th tags 
+    tr
+      td= project.title
+      td= project.tags
+  div 
+    h3 youtubes
+    -project.youtubes.forEach(function(youtube){
+      - if(youtube){
+        div
+          iframe(width='560', height='315', src='http://www.youtube.com/embed/#{youtube}', frameborder='0', allowfullscreen)
+      - }
+    -})
+
+  div
+    h3 vimeos
+    -project.vimeos.forEach(function(vimeo){
+      - if(vimeo){
+        div
+          iframe(src='http://player.vimeo.com/video/#{vimeo}?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff', width='560', height='315', frameborder='0', webkitAllowFullScreen, mozallowfullscreen, allowFullScreen)
+      - }
+    -})
+
+  div
+    h3 images
+    -imageNames.forEach(function(name, i){
+      div
+        img(src="/render_image/#{project._id}/#{name}", alt="")
+    -})

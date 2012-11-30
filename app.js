@@ -12,6 +12,7 @@ var express = require('express')
   , pad = require('pad-component')
   , colors = require('colors')
   , routes = require('./routes')
+  , render_image = require('./routes/render_image')
   , admin = require('./routes/admin')
   , projects = require('./routes/admin/projects')
   , tags = require('./routes/admin/tags')
@@ -34,11 +35,11 @@ app.configure(function() {
   app.use(express.methodOverride());
   app.use(express.compress());
   
-  if ('development' === app.get('env')) {
-    app.use(function(req, res, next) {
-      exec('make', next);
-    });
-  }
+  // if ('development' === app.get('env')) {
+  //   app.use(function(req, res, next) {
+  //     exec('make', next);
+  //   });
+  // }
   
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
@@ -52,11 +53,11 @@ app.get('/', routes.index);
 app.resource('projects', routes.projects);
 app.resource('tags', routes.tags);
 
-app.get('/admin', admin)
-app.resource('admin/project', projects);
-app.resource('admin/tag', tags);
+app.get('/render_image/:id/:name', render_image.show);
 
-//console.log(app.routes.get[2].callbacks[0].constructor.name);
+app.get('/admin', admin)
+app.resource('admin/projects', projects);
+app.resource('admin/tags', tags);
 
 Object.keys(app.routes).forEach(function(method) {
   app.routes[method].forEach(function(route) {

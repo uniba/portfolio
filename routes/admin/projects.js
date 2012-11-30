@@ -11,7 +11,7 @@ exports.index = function(req, res) {
     .sort('-created')
     .exec(function(err, projects) {
       if (err) return res.send(500);
-      res.render('admin/project/index', { title: 'project list', projects: projects });
+      res.render('admin/projects/index', { title: 'project list', projects: projects });
     });
 };
 
@@ -22,46 +22,19 @@ exports.new = function(req, res){
     , description: ''
     , tags: ['', '', '']
     , images: ['', '', '']
+    , youtubes: ['', '', '']
+    , vimeos: ['', '', '']
   };
 
-  res.render('admin/project/form', {title: 'project new', project: project, method: 'post' });
+  res.render('admin/projects/form', {title: 'project new', project: project, method: 'post' });
 };
-
-//TODO call とか applyとか
-  // var chain = function() {
-  //   var fns = [].slice.call(arguments);
-  //   function next() {
-  //     var fn = fns.shift()
-  //       , args = [].slice.call(arguments);
-  //     if (fns.length > 0) args = args.concat(next);
-  //     fn.apply(null, args);
-  //   }
-  //   next();
-  // };
 
 exports.create = function(req, res) {
   var images = req.files.project.images || []
-    , imageDatas = []
-    , tags = req.body.project.tags || [];
-
-  images.forEach(function(image) {
-    if (image.size) {
-      var path = image.path
-        , name = image.name;
-      
-      fs.readFile(path, function(err, data) {
-        if (err) {
-         console.log('err:%s', err);
-         return res.send(500);
-        }
-
-        imageDatas.push({
-            name: name
-          , data: data
-        });
-      });
-    }
-  });
+    , imageDatas = {}
+    , tags = req.body.project.tags || []
+    , youtubes = req.body.project.youtubes || []
+    , vimeos = req.body.project.vimeos || [] ;
 
   tags.forEach(function(tag) {
     new Tag({
@@ -75,15 +48,33 @@ exports.create = function(req, res) {
       title: req.body.project.title
     , description: req.body.project.description
     , tags: tags
-    , images: imageDatas
+    , youtubes: youtubes
+    , vimeos: vimeos
   });
 
-  project.save(function(err, project) {
+  images.forEach(function(image) {
+    if (image.size) {
+      var image_path = image.path
+        , name = image.name;
+        //http://nodejs.org/api/all.html#all_buffer
+        // binaryはdeprecatedになるかも
+      var data = fs.readFileSync(image_path, 'binary');
+      //var data = fs.readFileSync(image_path);
+      new_name = base64id.generateId();
+      imageDatas[new_name] = {
+        data: data, 
+        ext: path.extname(name),
+      };
+    }
+  });
+  project.images = imageDatas;
+
+  project.save(function(err, project) {    
     if (err) {
       console.log('err:%s', err);
       return res.send(500);
     }
-    res.redirect('/admin/project');
+    res.redirect('/admin/projects');
   });
 };
 
@@ -92,7 +83,11 @@ exports.show = function(req, res) {
   
   Project.findOne({ _id: projectId }, function(err, project) {
     if (err) return res.send('error: %s',err);
-    res.render('admin/project/show', { title: project.title, project: project });
+    var imageNames = [];
+    for (key in project.images) {
+      imageNames.push(key);
+    };
+    res.render('admin/projects/show', { title: project.title, project: project, imageNames:imageNames });
   });
 };
 
@@ -101,7 +96,7 @@ exports.edit = function(req, res) {
   
   Project.findOne({ _id: projectId }, function(err, project) {
     if (err) return res.send('error: %s', err);
-    res.render('admin/project/form', { title: project.title, project: project, method: 'put' });
+    res.render('admin/projects/form', { title: project.title, project: project, method: 'put' });
   });
 };
 
@@ -114,13 +109,13 @@ exports.destroy = function(req, res) {
   res.send('destroy forum ' + req.params.forum);
 };
 
-var chain = function() {
+function chain() {
   var fns = [].slice.call(arguments);
+  next();
   function next() {
     var fn = fns.shift()
       , args = [].slice.call(arguments);
     if (fns.length > 0) args = args.concat(next);
     fn.apply(null, args);
   }
-  next();
 };

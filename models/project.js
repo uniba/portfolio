@@ -6,7 +6,7 @@ var ProjectSchema = module.exports = new Schema({
     title: { type: String, unique: true }
   , description: String
   , tags: Array
-  , images: Array
+  , images: Schema.Types.Mixed
   , youtubes: Array
   , vimeos: Array
 });
