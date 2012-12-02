@@ -75,6 +75,9 @@ app.configure(function() {
   }
   if ('production' === app.get('env')) {
     app.use('/admin', basicAuth);
+    exec('make', function(err, stdout, stderr) {
+      console.log(' building components is done.');
+    });
   }
   
   app.use(app.router);
