@@ -16,12 +16,14 @@ module.exports = function(schema, options) {
     json = 'http://gdata.youtube.com/feeds/api/videos/' + videoId + '?alt=json';
     
     request({ url: json, json: true }, function(err, res, body) {
+      var thumbUrl = 'http://i.ytimg.com/vi/' + videoId + '/0.jpg';
+      
       self
         .set('type', 'youtube')
         .set('extend', JSON.stringify(body))
         .set('title', body.entry.title.$t);
       
-      request({ url: 'http://i.ytimg.com/vi/' + videoId + '/0.jpg', encoding: 'binary' }, function(err, res, body) {
+      request({ url: thumbUrl, encoding: null }, function(err, res, body) {
         self
           .set('mime', res.headers['content-type'])
           .set('image', body);
