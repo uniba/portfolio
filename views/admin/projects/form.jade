@@ -20,8 +20,7 @@ block content
       div(class='control-group')
         label(class='control-label') tags:
         div(class='controls')
-          each tag in project.tags
-            input(type='text', name='project[tags]', value= tag)
+          input#tags(type='text', name='project[tags]')
 
       div(class='control-group')
         label(class='control-label') youtubes:
@@ -50,5 +49,9 @@ block content
         div(class='controls')
           each image in project.images
             input(type='file', name='project[images]', acccept='image/*')
+      
+      .control-group
+        .controls
+          #drop
       
       input(type='submit', value='submit', class='btn')

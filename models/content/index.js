@@ -4,7 +4,7 @@ var fs = require('fs')
   , Schema = require('mongoose').Schema;
 
 var ContentSchema = module.exports = new Schema({
-    title: { type: String, unique: true }
+    title: { type: String }
   , _project: { type: Schema.Types.ObjectId, ref: 'Project' }
   , type: { type: String }
   , url: { type: String }

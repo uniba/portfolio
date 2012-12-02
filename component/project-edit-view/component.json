@@ -3,8 +3,10 @@
   "description": "Project edit view component",
   "dependencies": {
     "component/view": "*",
+    "component/dom": "*",
     "component/classes": "*",
-    "component/domify": "*"
+    "component/pillbox": "*",
+    "component/dropload": "*"
   },
   "scripts": ["index.js", "template.js"]
 }
