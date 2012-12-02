@@ -90,9 +90,10 @@ app.get('/projects/:id', routes.projects.show);
 app.get('/contents/:id', routes.contents.show);
 app.get('/contents/:id/image', routes.contents.image);
 
-app.get('/admin', routes.admin.index);
+app.get('/admin', routes.admin.projects.index);
 app.resource('admin/projects', routes.admin.projects);
 app.resource('admin/tags', routes.admin.tags);
+app.post('/admin/contents/new', routes.admin.contents.create);
 
 app.get('/render_image/:id/:name', render_image.show);
 
