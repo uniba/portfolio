@@ -69,4 +69,10 @@ html, body {
 
 .spinner {
   fixed: top 2em right 2em;
+  transform: scale(1);
+  transition: all 300ms ease-out;
+  &.hide-out {
+    transform: scale(.8);
+    opacity: 0;
+  }
 }

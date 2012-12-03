@@ -11,12 +11,11 @@ var $ = require('zepto-component')
 page('*', function(ctx, next) {
   var spinner = new Spinner();
   
-  spinner.el.classList.add('spinner');
-  
   spinner
     .size(100)
     .speed(100)
-    .text('loading...');
+    .text('loading...')
+    .el.classList.add('spinner');
     
   overlay = Overlay();
   // overlay.show();
@@ -31,7 +30,13 @@ page('*', function(ctx, next) {
         if (!res.ok) return overlay.hide() && document.body.removeChild(spinner.el);
         $('div#body').empty();
         $('div#body').append($(res.text).find('#body').children());
-        document.body.removeChild(spinner.el);
+        
+        $(spinner.el).addClass('hide-out');
+                
+        setTimeout(function() {
+          document.body.removeChild(spinner.el);
+        }, 300);
+        
         next();
       });
   });
