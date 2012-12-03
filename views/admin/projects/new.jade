@@ -1,0 +1,43 @@
+- if (layout)
+  extends ../layout
+
+block content
+
+  form(method='POST', action='/admin/projects/confirm', enctype='multipart/form-data')
+    input(type='hidden', name='_method', value='POST')
+    fieldset
+      .control-group
+        label(class='control-label') title:
+        .controls
+          input(type='text', name='project[title]', value= project.title)
+
+      .control-group
+        label(class='control-label') description:
+        .controls
+          textarea(name='project[description]', cols=40, rows=4)
+            =project.description
+
+      .control-group
+        label(class='control-label') tags:
+        .controls
+          each tag in project.tags
+            .tags
+              input(type='text', name='project[tags]', value= tag)
+
+      .control-group
+        label(class='control-label') contents:
+        i(class="icon-warning-sign")
+        span(class="help-block") urlを入力してください。
+        .controls
+          each content in project.contents
+            .contents
+              input(type='text', name='project[contents]', value= content)
+
+      .control-group
+        label(class='control-label') images:
+        .controls
+          each image in project.images
+            .images
+              input(type='file', name='project[images]', acccept='image/*')
+      
+      input(type='submit', value='submit', class='btn')

@@ -17,17 +17,21 @@ exports.index = function(req, res) {
 
 exports.new = function(req, res){
   var project = {
-      _id: ''
-    , title: ''
+      title: ''
     , description: ''
     , tags: ['', '', '']
+    , contents: ['', '', '']
     , images: ['', '', '']
-    , youtubes: ['', '', '']
-    , vimeos: ['', '', '']
   };
 
-  res.render('admin/projects/form', {title: 'project new', project: project, method: 'post' });
+  res.render('admin/projects/new', {title: 'project new', project: project });
 };
+
+exports.confirm = function(req, res){
+  
+  res.render('admin/projects/confirm', {title: 'project new', project: project, method: 'post' });
+};
+
 
 exports.create = function(req, res) {
   var images = req.files.project.images || []

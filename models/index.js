@@ -9,7 +9,7 @@ var mongoose = require('mongoose')
 /**
  * Expose mongoose.
  */
-
+mongoose.set('debug', true);
 exports.mongoose = mongoose;
 
 /**
