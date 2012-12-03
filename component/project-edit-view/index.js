@@ -27,6 +27,7 @@ function ProjectEditView(project, el) {
   View.call(this, project, el || dom(html));
   this.dom = dom(this.el);
   this.tags = Pillbox(dom(this.el).find('#tags').get(0));
+  this.contents = Pillbox(dom(this.el).find('#contents').get(0));
   this.drop = Dropload(dom(this.el).find('#drop').get(0));
   
   if (project.tags()) {
@@ -37,6 +38,7 @@ function ProjectEditView(project, el) {
   
   this.dom.on('submit', function(e) {
     // TODO: xhr
+    //console.log(this.tags.value());
     e.preventDefault();
   });
   

@@ -17,17 +17,7 @@ exports.index = function(req, res) {
 };
 
 exports.new = function(req, res){
-  var project = {
-      _id: ''
-    , title: ''
-    , description: ''
-    , tags: ['', '', '']
-    , images: ['', '', '']
-    , youtubes: ['', '', '']
-    , vimeos: ['', '', '']
-  };
-
-  res.render('admin/projects/form', {title: 'project new', project: project, method: 'post' });
+  res.render('admin/projects/form', {title: 'project new', method: 'post' });
 };
 
 exports.create = function(req, res) {

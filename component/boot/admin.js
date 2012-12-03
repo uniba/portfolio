@@ -10,14 +10,14 @@ var $ = require('zepto-component')
 
 page('*', function(ctx, next) {
   var spinner = new Spinner();
-  
+  console.log(ctx);
   spinner
     .size(100)
     .speed(100)
     .text('loading...')
     .el.classList.add('spinner');
     
-  overlay = Overlay();
+  //overlay = Overlay();
   // overlay.show();
   
   $(function() {
@@ -30,7 +30,6 @@ page('*', function(ctx, next) {
         if (!res.ok) return overlay.hide() && document.body.removeChild(spinner.el);
         $('div#body').empty();
         $('div#body').append($(res.text).find('#body').children());
-        
         $(spinner.el).addClass('hide-out');
                 
         setTimeout(function() {
@@ -48,7 +47,7 @@ page('/admin', function(ctx) {
 
 page('/admin/projects/new', function(ctx) {
   var project = new Project()
-    , el = $('div#body').children().get(0)
+    , el = $('form#new_project').get(0)
     , view = new ProjectEditView(project, el);
   
   overlay.hide();
