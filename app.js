@@ -87,6 +87,9 @@ app.configure('development', function() {
 
 app.get('/projects', routes.projects.index);
 app.get('/projects/:id', routes.projects.show);
+app.get('/contents/:id', routes.contents.show);
+app.get('/contents/:id/image', routes.contents.image);
+
 app.get('/admin', routes.admin.index);
 app.resource('admin/projects', routes.admin.projects);
 app.resource('admin/tags', routes.admin.tags);
