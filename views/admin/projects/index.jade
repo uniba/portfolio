@@ -1,14 +1,10 @@
 extends ../layout
 
 block content
-  h2= title
-  ul
-    li
-      a(href='/admin/tags/') tag
-    li
-      a(href='/admin/projects/new') new project
+  .lead: h4= title
+
   table(class='table table-bordered')
-    caption Project List
+    // caption Project List
     tr
       th title
       th _id

@@ -3,10 +3,12 @@
   "description": "Main app boot component",
   "dependencies": {
     "component/zepto": "*",
+    "visionmedia/superagent": "*",
     "visionmedia/page.js": "*",
-    "component/pillbox": "*",
-    "component/dropload": "*"
+    "component/domify": "*",
+    "component/overlay": "*",
+    "godmodelabs/spinner": "*"
   },
   "scripts": ["index.js", "admin.js", "main.js"],
-  "local": ["project-edit-view"]
+  "local": ["project-edit-view", "project-model"]
 }

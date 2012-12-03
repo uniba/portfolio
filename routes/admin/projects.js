@@ -7,7 +7,8 @@ var path = require('path')
   , Tag = models.Tag;
 
 exports.index = function(req, res) {
-  Project.find()
+  Project
+    .find()
     .sort('-created')
     .exec(function(err, projects) {
       if (err) return res.send(500);
