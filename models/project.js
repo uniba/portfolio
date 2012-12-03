@@ -11,3 +11,4 @@ var ProjectSchema = module.exports = new Schema({
   , vimeos: Array
   , tags: [{ type: String }]
 });
+
