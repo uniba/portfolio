@@ -4,7 +4,8 @@ var path = require('path')
   , base64id = require('base64id')
   , models = require('../../models')
   , Project = models.Project
-  , Tag = models.Tag;
+  , Tag = models.Tag
+  , Content = models.Content;
 
 exports.index = function(req, res) {
   Project
@@ -21,51 +22,27 @@ exports.new = function(req, res){
 };
 
 exports.create = function(req, res) {
-  var images = req.files.project.images || []
-    , imageDatas = {}
-    , tags = req.body.project.tags || []
-    , youtubes = req.body.project.youtubes || []
-    , vimeos = req.body.project.vimeos || [] ;
+  console.log(req.body);
+  var contents = req.body.project.contents;
 
-  tags.forEach(function(tag) {
-    new Tag({
-      name: tag
-    }).save(function(err, tag) {
-      if (err) return console.log('Tag err');
-    });
+  // TODO population
+  contents.forEach(function(content){
+    var content = new Content({url: content});
+    
   });
 
   var project =  new Project({
       title: req.body.project.title
     , description: req.body.project.description
-    , tags: tags
-    , youtubes: youtubes
-    , vimeos: vimeos
+    , tags: req.body.project.tags
   });
-
-  images.forEach(function(image) {
-    if (image.size) {
-      var image_path = image.path
-        , name = image.name;
-        //http://nodejs.org/api/all.html#all_buffer
-        // binaryはdeprecatedになるかも
-      var data = fs.readFileSync(image_path, 'binary');
-      //var data = fs.readFileSync(image_path);
-      new_name = base64id.generateId();
-      imageDatas[new_name] = {
-        data: data, 
-        ext: path.extname(name),
-      };
-    }
-  });
-  project.images = imageDatas;
 
   project.save(function(err, project) {    
     if (err) {
       console.log('err:%s', err);
       return res.send(500);
     }
-    res.redirect('/admin/projects');
+    res.redirect('/admin/');
   });
 };
 

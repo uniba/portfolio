@@ -8,7 +8,11 @@ module.exports = function(schema, options) {
     var self = this
       , jsonUrl
       , videoId
-      , url = parse(this.get('url'));
+      , url = this.get('url');
+
+    if (null == url) return next();
+
+    url = parse(this.get('url'));
     
     if ('vimeo.com' !== url.hostname) return next();
     

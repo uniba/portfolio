@@ -3,7 +3,7 @@
 
 block content
 
-  form(method='POST',id='new_project' ,action='/admin/projects/', enctype='multipart/form-data')
+  form(method='POST',name='form_project',id='form_project' ,action='/admin/projects/', enctype='multipart/form-data')
     input(type='hidden', name='_method', value='#{method}')
     fieldset
       div(class='control-group')
@@ -18,19 +18,21 @@ block content
 
       div(class='control-group')
         label(class='control-label') tags:
+        span(class="help-block") enterを押すと複数入力できます。
         div(class='controls')
           input#tags(type='text', name='project[tags]')
 
       div(class='control-group')
         label(class='control-label') contents:
         i(class="icon-warning-sign")
-        span(class="help-block") urlを入力してください。  
+        span(class="help-block") urlを入力してください。 
+        span(class="help-block") enterを押すと複数入力できます。    
         div(class='controls')
           input#contents(type='text', name='project[contents]')
 
       div(class='control-group')
         label(class='control-label') images:
-      
+
       .control-group
         .controls
           #drop

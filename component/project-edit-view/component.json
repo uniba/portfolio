@@ -4,9 +4,11 @@
   "dependencies": {
     "component/view": "*",
     "component/dom": "*",
+    "component/emitter": "*",
     "component/classes": "*",
     "component/pillbox": "*",
-    "component/dropload": "*"
+    "component/dropload": "*",
+    "visionmedia/superagent": "*"
   },
   "scripts": ["index.js", "template.js"]
 }

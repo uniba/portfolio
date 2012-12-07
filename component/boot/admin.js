@@ -47,9 +47,17 @@ page('/admin', function(ctx) {
 
 page('/admin/projects/new', function(ctx) {
   var project = new Project()
-    , el = $('form#new_project').get(0)
+    , el = $('form#form_project').get(0)
     , view = new ProjectEditView(project, el);
   
+  view.on('done', function(res) {
+    page('/admin');
+  });
+
+  view.on('error', function(err) {
+    alert('error');
+  });
+
   overlay.hide();
 });
 
