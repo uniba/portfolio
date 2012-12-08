@@ -1,30 +1,40 @@
+
+/**
+ * Module dependencies.
+ */
+
 var fs = require('fs')
   , models = require('../../models')
   , Project = models.Project
   , Content = models.Content;
 
 exports.create = function(req, res) {
-  if(req.files.file){
-    console.log('file');
-    var type = req.files.file.type
-      , mime = req.files.file.mime
-      , imagePath = req.files.file.path;
-
-    fs.readFile(imagePath, 'binary', function(err, data) {
-      if (err) throw err;
-      var content = new Content({
-        type: type,
-        mime: mime,
-        image: data
-      });
-
-      content.save(function(err, content) {
+    var url = req.params.url
+      , file = req.files.file;
+  
+  if (!file) {
+    var content = new Content();
+    
+    return content 
+      .set('url', url)
+      .save(function(err, content) {
         if (err) throw err;
         res.send(content);
       });
-    });
-  }else{
-
   }
+  
+  fs.readFile(file.path, 'binary', function(err, data) {
+    if (err) throw err;
+    
+    var content = new Content();
 
+    content
+      .set('type', file.type)
+      .set('mime', file.mime)
+      .set('image', data)
+      .save(function(err, content) {
+        if (err) throw err;
+        res.send(content);
+      });
+  });
 };
