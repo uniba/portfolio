@@ -24,7 +24,7 @@ module.exports = ProjectEditView;
 
 function ProjectEditView(project, el) {
   var self = this
-  , $form = $('form#form_project');
+    , $form = $('form#form_project');
 
   View.call(self, project, el || dom(html));
   self.dom = dom(self.el);
@@ -40,14 +40,17 @@ function ProjectEditView(project, el) {
 
   self.dom.on('submit', function(e) {
     var data = $form.serializeArray();
-    var tags = $.map(self.tags.tags.vals,function(tag, i) {
-      return {name: 'project[tags][]', value: tag};
+    
+    var tags = $.map(self.tags.tags.vals, function(tag, i) {
+      return { name: 'project[tags][]', value: tag };
     });
+    
     data = data.concat(tags);
 
-    var contents = $.map(self.contents.tags.vals,function(content, i) {
-      return {name: 'project[contents][]', value: content};
+    var contents = $.map(self.contents.tags.vals, function(content, i) {
+      return { name: 'project[contents][]', value: content };
     });
+    
     data = data.concat(contents);
 
     request
@@ -82,10 +85,8 @@ function ProjectEditView(project, el) {
 
     upload.on('end', function(req) {
       var data = JSON.parse(req.responseText);
-      console.log('content_id:',data._id);
       $form
-        .append('<input type="hidden" name="project[imageIds][]" value="'+data._id+'">');
-
+        .append('<input type="hidden" name="contents[id][]" value="' + data._id + '">');
     });
 
     upload.to('/admin/contents/new');
