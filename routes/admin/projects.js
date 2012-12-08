@@ -2,6 +2,7 @@
 var path = require('path')
   , fs = require('fs')
   , base64id = require('base64id')
+  , Batch = require('batch')
   , models = require('../../models')
   , Project = models.Project
   , Tag = models.Tag
@@ -22,41 +23,43 @@ exports.new = function(req, res){
 };
 
 exports.create = function(req, res) {
-  console.log(req.body);
-  var contents = req.body.project.contents;
-
-  // TODO population
-  contents.forEach(function(content){
-    var content = new Content({url: content});
-    
-  });
-
-  var project =  new Project({
-      title: req.body.project.title
-    , description: req.body.project.description
-    , tags: req.body.project.tags
-  });
-
-  project.save(function(err, project) {    
-    if (err) {
-      console.log('err:%s', err);
-      return res.send(500);
-    }
-    res.redirect('/admin/');
-  });
+  var batch = new Batch()
+    , project = new Project(req.body.project)
+    , contents = req.body.contents;
+  
+  project
+    .set('_contents', contents.id)
+    .save(function(err, project) {
+      if (err) return res.send(500);
+      
+      contents.id.forEach(function(id) {
+        batch.push(function(done) {
+          Content
+            .findOne(id)
+            .exec(function(err, content) {
+              if (err) throw err;
+              content.set('_project', project._id).save(done);
+            });
+        });
+      });
+      
+      batch.end(function() {
+        res.redirect('/admin/');
+      });
+    });
 };
 
 exports.show = function(req, res) {
-  var projectId = req.params.project;
+  var id = req.params.project;
   
-  Project.findOne({ _id: projectId }, function(err, project) {
-    if (err) return res.send('error: %s',err);
-    var imageNames = [];
-    for (key in project.images) {
-      imageNames.push(key);
-    };
-    res.render('admin/projects/show', { title: project.title, project: project, imageNames:imageNames });
-  });
+  Project
+    .findOne({ _id: id })
+    .populate('_contents')
+    .exec(function(err, project) {
+      if (err) throw err;
+      res.render('admin/projects/show', { title: project.title, project: project });
+    });
+
 };
 
 exports.edit = function(req, res) {
