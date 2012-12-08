@@ -19,7 +19,8 @@
     "component": "~0.9.1",
     "nib": "~0.9.0",
     "stylus": "~0.31.0",
-    "request": "~2.12.0"
+    "request": "~2.12.0",
+    "batch": "~0.2.1"
   },
   "devDependencies": {
     "node-dev": "~0.2.9"
