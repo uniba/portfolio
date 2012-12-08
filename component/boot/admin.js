@@ -10,16 +10,13 @@ var $ = require('zepto-component')
 
 page('*', function(ctx, next) {
   var spinner = new Spinner();
-  console.log(ctx);
+
   spinner
     .size(100)
     .speed(100)
     .text('loading...')
     .el.classList.add('spinner');
     
-  //overlay = Overlay();
-  // overlay.show();
-  
   $(function() {
     if (ctx.init) return next();
     
@@ -42,7 +39,6 @@ page('*', function(ctx, next) {
 });
 
 page('/admin', function(ctx) {
-  overlay.hide();
 });
 
 page('/admin/projects/new', function(ctx) {
@@ -57,18 +53,13 @@ page('/admin/projects/new', function(ctx) {
   view.on('error', function(err) {
     alert('error');
   });
-
-  overlay.hide();
 });
 
 page('/admin/projects/:id', function(ctx) {
   var id = ctx.params.id;
-  
-  overlay.hide();
 });
 
 page('/admin/projects/:id/edit', function(ctx) {
-  overlay.hide();
 });
 
 page();
