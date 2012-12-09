@@ -44,7 +44,7 @@ exports.create = function(req, res) {
       });
       
       batch.end(function() {
-        res.redirect('/admin/');
+        res.redirect('/admin');
       });
     });
 };
