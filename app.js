@@ -90,6 +90,7 @@ app.configure('development', function() {
 });
 
 app.locals.title = 'portfolio';
+app.locals.moment = require('moment');
 
 app.get('/projects', routes.projects.index);
 app.get('/projects/:id', routes.projects.show);
