@@ -18,7 +18,9 @@ var ContentSchema = module.exports = new Schema({
 ContentSchema.plugin(lastMod);
 
 ContentSchema.pre('save', function(next) {
-  if (this.get('url') && this.get('image')) return next(new Error(''));
+  if (this.get('url') && this.get('image')) {
+    return next(new Error('url or image required.'));
+  }
   next();
 });
 
