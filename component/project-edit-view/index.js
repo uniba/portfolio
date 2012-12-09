@@ -62,9 +62,11 @@ function ProjectEditView(project, el) {
   });
 
   this.dom.on('submit', function(e) {
-    var data = $form.serializeArray();
+    var data = $form.serializeArray()
+      , submit = document.querySelector('input[type=submit]');
     
     e.preventDefault();
+    submit.disabled = 'disabled';
     
     var tags = $.map(self.tags.tags.vals, function(tag, i) {
       return { name: 'project[tags][]', value: tag };
@@ -75,8 +77,11 @@ function ProjectEditView(project, el) {
     request
       .post('/admin/projects')
       .send($.param(data))
-      .end(function(err, res) {
-        if (err) return self.emit('error', err);
+      .end(function(res) {
+        if (!res.ok) {
+          submit.disabled = null;
+          return self.emit('error', res);
+        }
         self.emit('done', res);
       });
   });
