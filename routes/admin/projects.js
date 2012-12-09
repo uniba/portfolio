@@ -1,7 +1,6 @@
 
 var path = require('path')
   , fs = require('fs')
-  , base64id = require('base64id')
   , Batch = require('batch')
   , models = require('../../models')
   , Project = models.Project
@@ -61,7 +60,6 @@ exports.show = function(req, res) {
       if (err) throw err;
       res.render('admin/projects/show', { title: project.title, project: project });
     });
-
 };
 
 exports.edit = function(req, res) {
@@ -74,8 +72,24 @@ exports.edit = function(req, res) {
 };
 
 exports.update = function(req, res) {
-  //console.log(req.files.project.images);
-  res.send('update');
+  var id = req.params.project
+    , attrs = req.body.project;
+  
+  Project
+    .findOne({ _id: id })
+    .exec(function(err, project) {
+      if (err) throw err;
+      if (!project) return res.send(404);
+      
+      Object.keys(attrs).forEach(function(key, index) {
+        project.set(key, attrs[key]);
+      });
+      
+      project.save(function(err, project) {
+        if (err) throw err;
+        res.send(project);
+      });
+    });  
 };
 
 exports.destroy = function(req, res) {

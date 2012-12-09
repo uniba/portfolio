@@ -2,7 +2,7 @@
 extends ../layout
 
 block content
-  form#form_project(method='POST', name='form_project', action='/admin/projects', enctype='multipart/form-data')
+  form#form_project(data-project=project.toJSON() , method='POST', name='form_project', action='/admin/projects', enctype='multipart/form-data')
     .row-fluid
       .span6
         fieldset

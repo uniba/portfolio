@@ -32,6 +32,10 @@ function ProjectEditView(project, el) {
   this.tags = Pillbox(dom(this.el).find('#tags').get(0));
   this.contents = dom(this.el).find('#contents').get(0);
   this.drop = Dropload(dom(this.el).find('#drop').get(0));
+  
+  if ('put' === this.el.querySelector('[name=_method]').value) {
+    this.el.action += '/' + this.obj.get('_id');
+  }
  
   if (project.tags()) {
     project.tags().forEach(function(el, index) {
@@ -39,6 +43,16 @@ function ProjectEditView(project, el) {
     });
   }
   
+  Object.keys(this.obj.attrs).forEach(function(key, index) {
+    var val = self.obj.get(key)
+      , el = self.dom.find('[name="project[' + key + ']"]');
+    
+    if (val === void 0) return;
+    if (el.length() < 1) return;
+    
+    el.get(0).value = val;
+  });
+    
   this.dom.find('#contents').on('keydown', function(e) {
     var self = this;
      
@@ -75,7 +89,7 @@ function ProjectEditView(project, el) {
     data = data.concat(tags);
     
     request
-      .post('/admin/projects')
+      .post(self.el.action)
       .send($.param(data))
       .end(function(res) {
         if (!res.ok) {

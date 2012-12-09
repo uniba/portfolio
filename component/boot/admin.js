@@ -50,7 +50,7 @@ page('/admin/projects/new', function(ctx) {
     page('/admin');
   });
 
-  view.on('error', function(err) {
+  view.on('error', function(res) {
     alert('error');
   });
 });
@@ -60,6 +60,18 @@ page('/admin/projects/:id', function(ctx) {
 });
 
 page('/admin/projects/:id/edit', function(ctx) {
+  var data = JSON.parse($('[data-project]').data('project'))
+    , project = new Project(data)
+    , el = $('form#form_project').get(0)
+    , view = new ProjectEditView(project, el);
+  
+  view.on('done', function(res) {
+    page('/admin');
+  });
+  
+  view.on('error', function(res) {
+    alert('error');
+  });
 });
 
 page();
