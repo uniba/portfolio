@@ -90,6 +90,8 @@ app.configure('development', function() {
   app.use(express.errorHandler());
 });
 
+app.locals.title = 'portfolio';
+
 app.get('/projects', routes.projects.index);
 app.get('/projects/:id', routes.projects.show);
 app.get('/contents/:id', routes.contents.show);
