@@ -15,10 +15,15 @@ var ContentSchema = module.exports = new Schema({
   , created: { type: Date, default: Date.now, index: true }
 });
 
+ContentSchema.plugin(lastMod);
+
+ContentSchema.pre('save', function(next) {
+  if (this.get('url') && this.get('image')) return next(new Error(''));
+  next();
+});
+
 fs.readdirSync(path.join(__dirname, 'plugins')).forEach(function(filename) {
   if (!/\.js$/.test(filename)) return;
   var name = path.basename(filename, '.js');
   ContentSchema.plugin(require(path.join(__dirname, 'plugins', filename)));
 });
-
-ContentSchema.plugin(lastMod);
