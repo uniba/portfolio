@@ -1,0 +1,8 @@
+{
+  "name": "content-model",
+  "description": "Content model component",
+  "dependencies": {
+    "component/model": "*"
+  },
+  "scripts": ["index.js"]
+}
