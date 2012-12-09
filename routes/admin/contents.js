@@ -9,8 +9,8 @@ var fs = require('fs')
   , Content = models.Content;
 
 exports.create = function(req, res) {
-    var url = req.body.url
-      , files = req.files;
+  var url = req.body.url
+    , files = req.files;
   
   if (!files) {
     var content = new Content();
