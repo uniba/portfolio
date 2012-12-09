@@ -3,35 +3,39 @@ extends ../layout
 
 block content
   form#form_project(method='POST', name='form_project', action='/admin/projects', enctype='multipart/form-data')
-    fieldset
-      .control-group
-        label.control-label title:
-        .controls
-          input(type='text', name='project[title]')
-      .control-group
-        label.control-label description:
-        .controls
-          textarea(name='project[description]', cols=40, rows=4)
-      .control-group
-        label.control-label credits:
-        .controls
-          textarea(name='project[credits]', cols=40, rows=4)
-      .control-group
-        label.control-label tags:
-        span.help-block enterを押すと複数入力できます。
-        .controls
-          input#tags(type='text', name='project[tags]')
-      .control-group
-        label.control-label contents:
-        span.help-block enterを押すと複数入力できます。    
-        .controls
-          input#contents(type='text', name='project[contents]', placeholder='http://')
-      .control-group
-        label.control-label images:
-      .control-group
-        .controls
-          #drop
-    
+    .row-fluid
+      .span6
+        fieldset
+          .control-group
+            label.control-label title:
+            .controls
+              input(type='text', name='project[title]')
+          .control-group
+            label.control-label description:
+            .controls
+              textarea(name='project[description]', cols=40, rows=4)
+          .control-group
+            label.control-label credits:
+            .controls
+              textarea(name='project[credits]', cols=40, rows=4)
+      .span6
+        fieldset
+          .control-group
+            label.control-label tags:
+            span.help-block enterを押すと複数入力できます。
+            .controls
+              input#tags(type='text', name='project[tags]')
+          .control-group
+            label.control-label contents:
+            span.help-block enterを押すと複数入力できます。
+            .controls
+              input#contents(type='text', name='project[contents]', placeholder='http://')
+
+    .control-group
+      label.control-label images:
+      .controls
+        #drop
+
     .form-actions
       input(type='hidden', name='_method', value=method)
       input.btn.btn-primary(type='submit', value='Submit')
