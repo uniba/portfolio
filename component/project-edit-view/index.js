@@ -10,7 +10,8 @@ var dom = require('dom')
   , Dropload = require('dropload')
   , View = require('view')
   , Emitter = require('emitter')
-  , request = require('superagent');
+  , request = require('superagent')
+  , keyname = require('keyname');
 
 /**
  * Expose `ProjectEditView`.
@@ -26,33 +27,51 @@ function ProjectEditView(project, el) {
   var self = this
     , $form = $('form#form_project');
 
-  View.call(self, project, el || dom(html));
-  self.dom = dom(self.el);
-  self.tags = Pillbox(dom(self.el).find('#tags').get(0));
-  self.contents = Pillbox(dom(self.el).find('#contents').get(0));
-  self.drop = Dropload(dom(self.el).find('#drop').get(0));
+  View.call(this, project, el || dom(html));
+  this.dom = dom(this.el);
+  this.tags = Pillbox(dom(this.el).find('#tags').get(0));
+  this.contents = dom(this.el).find('#contents').get(0);
+  this.drop = Dropload(dom(this.el).find('#drop').get(0));
  
   if (project.tags()) {
     project.tags().forEach(function(el, index) {
       self.tags.add(el);
     });
   }
+  
+  this.dom.find('#contents').on('keydown', function(e) {
+    var self = this;
+     
+    if ('enter' !== keyname(e.which)) return;
+    
+    this.disabled = 'disabled';
+    
+    request
+      .post('/admin/contents')
+      .send({ url: this.value })
+      .end(function(res) {
+        self.disabled = null;
+        console.log(res);
+        if (!res.ok) {
+        }
+        $form.append('<input type="hidden" name="contents[id][]" value="' + res.body._id + '">');
+        self.value = '';
+      });
+    
+    e.preventDefault();
+  });
 
-  self.dom.on('submit', function(e) {
+  this.dom.on('submit', function(e) {
     var data = $form.serializeArray();
+    
+    e.preventDefault();
     
     var tags = $.map(self.tags.tags.vals, function(tag, i) {
       return { name: 'project[tags][]', value: tag };
     });
     
     data = data.concat(tags);
-
-    var contents = $.map(self.contents.tags.vals, function(content, i) {
-      return { name: 'project[contents][]', value: content };
-    });
     
-    data = data.concat(contents);
-
     request
       .post('/admin/projects')
       .send($.param(data))
@@ -60,15 +79,13 @@ function ProjectEditView(project, el) {
         if (err) return self.emit('error', err);
         self.emit('done', res);
       });
-
-    e.preventDefault();
   });
   
-  self.drop.on('error', function(err) {
+  this.drop.on('error', function(err) {
     console.log(arguments);
   });
   
-  self.drop.on('upload', function(upload) {
+  this.drop.on('upload', function(upload) {
     console.log('uploading %s', upload.file.name);
 
     upload.on('error', function(e) {
@@ -89,7 +106,7 @@ function ProjectEditView(project, el) {
         .append('<input type="hidden" name="contents[id][]" value="' + data._id + '">');
     });
 
-    upload.to('/admin/contents/new');
+    upload.to('/admin/contents');
   });
 }
 

@@ -9,10 +9,10 @@ var fs = require('fs')
   , Content = models.Content;
 
 exports.create = function(req, res) {
-    var url = req.params.url
-      , file = req.files.file;
+    var url = req.body.url
+      , files = req.files;
   
-  if (!file) {
+  if (!files) {
     var content = new Content();
     
     return content 
@@ -23,14 +23,14 @@ exports.create = function(req, res) {
       });
   }
   
-  fs.readFile(file.path, function(err, data) {
+  fs.readFile(files.file.path, function(err, data) {
     if (err) throw err;
     
     var content = new Content();
 
     content
       .set('type', 'image')
-      .set('mime', file.mime)
+      .set('mime', files.file.mime)
       .set('image', data)
       .save(function(err, content) {
         if (err) throw err;

@@ -8,7 +8,8 @@
     "component/classes": "*",
     "component/pillbox": "*",
     "component/dropload": "*",
-    "visionmedia/superagent": "*"
+    "visionmedia/superagent": "*",
+    "component/keyname": "*"
   },
   "scripts": ["index.js", "template.js"]
 }
