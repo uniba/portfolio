@@ -6,6 +6,7 @@ var Schema = require('mongoose').Schema
 var ProjectSchema = module.exports = new Schema({
     title: { type: String, unique: true }
   , _contents: [{ type: Schema.Types.ObjectId, ref: 'Content' }]
+  , credits: { type: String }
   , description: String
   , tags: [{ type: String }]
   , created: { type: Date, default: Date.now, index: true }
