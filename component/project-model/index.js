@@ -12,7 +12,7 @@ var Project = module.exports = model('Project')
   .attr('_contents')
   .attr('title')
   .attr('description')
-  .attr('credit')
+  .attr('credits')
   .attr('tags')
   .attr('created')
   .attr('updated');
