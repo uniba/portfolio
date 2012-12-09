@@ -2,35 +2,34 @@
 extends ../layout
 
 block content
-
-  form(method='POST',name='form_project',id='form_project' ,action='/admin/projects/', enctype='multipart/form-data')
-    input(type='hidden', name='_method', value='#{method}')
+  form#form_project(method='POST', name='form_project', action='/admin/projects', enctype='multipart/form-data')
+    input(type='hidden', name='_method', value=method)
     fieldset
-      div(class='control-group')
-        label(class='control-label') title:
-        div(class='controls')
+      .control-group
+        label.control-label title:
+        .controls
           input(type='text', name='project[title]')
 
-      div(class='control-group')
-        label(class='control-label') description:
-        div(class='controls')
+      .control-group
+        label.control-label description:
+        .controls
           textarea(name='project[description]', cols=40, rows=4)
 
-      div(class='control-group')
-        label(class='control-label') tags:
-        span(class="help-block") enterを押すと複数入力できます。
-        div(class='controls')
+      .control-group
+        label.control-label tags:
+        span.help-block enterを押すと複数入力できます。
+        .controls
           input#tags(type='text', name='project[tags]')
 
-      div(class='control-group')
-        label(class='control-label') contents:
-        i(class="icon-warning-sign")
-        span(class="help-block") enterを押すと複数入力できます。    
-        div(class='controls')
+      .control-group
+        label.control-label contents:
+        i.icon-warning-sign
+        span.help-block enterを押すと複数入力できます。    
+        .controls
           input#contents(type='text', name='project[contents]', placeholder='http://')
 
-      div(class='control-group')
-        label(class='control-label') images:
+      .control-group
+        label.control-label images:
 
       .control-group
         .controls
