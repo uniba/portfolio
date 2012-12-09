@@ -19,8 +19,9 @@ exports.index = function(req, res) {
     });
 };
 
-exports.new = function(req, res){
-  res.render('admin/projects/form', { title: 'New project', method: 'post' });
+exports.new = function(req, res) {
+  var project = new Project();
+  res.render('admin/projects/form', { title: 'New project', project: project, method: 'post' });
 };
 
 exports.create = function(req, res) {
