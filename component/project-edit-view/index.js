@@ -54,7 +54,7 @@ function ProjectEditView(project, el) {
     data = data.concat(contents);
 
     request
-      .post('/admin/projects/')
+      .post('/admin/projects')
       .send($.param(data))
       .end(function(err, res) {
         if (err) return self.emit('error', err);
