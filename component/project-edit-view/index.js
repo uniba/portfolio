@@ -104,7 +104,3 @@ ProjectEditView.prototype.__proto__ = View.prototype;
  */
 
 Emitter(ProjectEditView.prototype);
-
-
-
-
