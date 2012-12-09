@@ -2,10 +2,9 @@ extends ../layout
 
 block content
   h4= title
-
   each project in projects
     .media
-      a.pull-left(href='/admin/project/#{project.id}')
+      a.pull-left(href='/admin/projects/#{project.id}')
         if project._contents.length
           img.media-object.img-polaroid(style='width: 100px;', src=project._contents[0].toDataURL())
         else
@@ -20,5 +19,5 @@ block content
             | Edit
         p.pull-right: i: small= moment(project.created).fromNow()
         p: small= project.tags.join(', ')
-        p(style='white-space: pre; min-height: 4em;')= project.description
-  hr
+        p(style='white-space: pre; min-height: 2em;')= project.description
+    hr
