@@ -5,19 +5,19 @@ block content
   table.table.table-condensed(data-project=JSON.stringify(project))
     tbody
       tr
-        th description
-        td(style='white-space: pre;')= project.description
+        th Description
+        td(style='white-space: pre;')= project.description || 'No description given.'
       tr
-        th credit
-        td(style='white-space: pre;')= project.credit
+        th Credit
+        td(style='white-space: pre;')= project.credit || 'No credit given.'
       tr
-        th tags
+        th Tags
         td= project.tags.join(', ')
       tr
-        th created
+        th Created
         td= project.created
       tr
-        th updated
+        th Updated
         td= project.updated
 
   each content in project._contents
