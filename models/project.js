@@ -1,5 +1,6 @@
 
 var Schema = require('mongoose').Schema
+  , lastMod = require('./plugins/last_modified')
   , ContentSchema = require('./content');
 
 var ProjectSchema = module.exports = new Schema({
@@ -7,4 +8,7 @@ var ProjectSchema = module.exports = new Schema({
   , _contents: [{ type: Schema.Types.ObjectId, ref: 'Content' }]
   , description: String
   , tags: [{ type: String }]
+  , created: { type: Date, default: Date.now, index: true }
 });
+
+ProjectSchema.plugin(lastMod);
