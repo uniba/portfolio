@@ -100,8 +100,6 @@ app.resource('admin/projects', routes.admin.projects);
 app.resource('admin/tags', routes.admin.tags);
 app.post('/admin/contents', routes.admin.contents.create);
 
-app.get('/render_image/:id/:name', render_image.show);
-
 Object.keys(app.routes).forEach(function(method) {
   app.routes[method].forEach(function(route) {
     console.log('%s : %s', pad.left(route.method.toUpperCase(), 6).yellow, route.path.grey);
