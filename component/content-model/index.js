@@ -8,10 +8,15 @@ var model = require('model');
 var Content = module.exports = model('Content')
   .attr('_id')
   .attr('__v')
+  .attr('_project')
   .attr('url')
+  .attr('title')
+  .attr('extend')
   .attr('type')
   .attr('image')
-  .attr('mime');
+  .attr('mime')
+  .attr('created')
+  .attr('updated');
 
 Content.prototype.toDataURL = function() {
   var mime = this.mime()

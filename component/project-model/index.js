@@ -13,8 +13,9 @@ var Project = module.exports = model('Project')
   .attr('title')
   .attr('description')
   .attr('credit')
-  .attr('urls')
-  .attr('tags');
+  .attr('tags')
+  .attr('created')
+  .attr('updated');
 
 Project.prototype.contents = function() {
   var contents = []
