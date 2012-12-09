@@ -35,7 +35,7 @@ exports.create = function(req, res) {
       contents.id.forEach(function(id) {
         batch.push(function(done) {
           Content
-            .findOne(id)
+            .findOne({ _id: id })
             .exec(function(err, content) {
               if (err) throw err;
               content.set('_project', project._id).save(done);
