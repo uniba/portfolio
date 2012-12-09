@@ -17,6 +17,11 @@ var ContentSchema = module.exports = new Schema({
 
 ContentSchema.plugin(lastMod);
 
+ContentSchema.methods.toDataURL = function() {
+  if (!this.get('image')) return 'data:';
+  return 'data:' + this.get('mime') + ';base64,' + this.get('image').toString('base64');
+};
+
 ContentSchema.pre('save', function(next) {
   if (this.get('url') && this.get('image')) {
     return next(new Error('url or image required.'));
