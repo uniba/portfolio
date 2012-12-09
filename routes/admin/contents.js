@@ -23,13 +23,13 @@ exports.create = function(req, res) {
       });
   }
   
-  fs.readFile(file.path, 'binary', function(err, data) {
+  fs.readFile(file.path, function(err, data) {
     if (err) throw err;
     
     var content = new Content();
 
     content
-      .set('type', file.type)
+      .set('type', 'image')
       .set('mime', file.mime)
       .set('image', data)
       .save(function(err, content) {
