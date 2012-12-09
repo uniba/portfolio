@@ -11,15 +11,16 @@ var path = require('path')
 exports.index = function(req, res) {
   Project
     .find()
+    .populate('_contents', null, {}, { limit: 1 })
     .sort('-created')
     .exec(function(err, projects) {
       if (err) return res.send(500);
-      res.render('admin/projects/index', { title: 'project list', projects: projects });
+      res.render('admin/projects/index', { title: 'Listing projects', projects: projects });
     });
 };
 
 exports.new = function(req, res){
-  res.render('admin/projects/form', {title: 'project new', method: 'post' });
+  res.render('admin/projects/form', { title: 'New project', method: 'post' });
 };
 
 exports.create = function(req, res) {
