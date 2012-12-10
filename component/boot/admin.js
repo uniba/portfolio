@@ -60,6 +60,7 @@ page('/admin/projects/:id', function(ctx) {
 });
 
 page('/admin/projects/:id/edit', function(ctx) {
+  console.log($('[data-project]').data('project'));
   var data = JSON.parse($('[data-project]').data('project'))
     , project = new Project(data)
     , el = $('form#form_project').get(0)

@@ -36,13 +36,22 @@ function ProjectEditView(project, el) {
   if ('put' === this.el.querySelector('[name=_method]').value) {
     this.el.action += '/' + this.obj.get('_id');
   }
- 
+  
   if (project.tags()) {
     project.tags().forEach(function(el, index) {
       self.tags.add(el);
     });
+
   }
   
+  if (project._contents()) {
+    //console.log('project._contents():', project._contents());
+    project._contents().forEach(function(content){
+      console.log(content);
+      showImage($form, content);
+    })
+  };
+
   Object.keys(this.obj.attrs).forEach(function(key, index) {
     var val = self.obj.get(key)
       , el = self.dom.find('[name="project[' + key + ']"]');
@@ -68,7 +77,8 @@ function ProjectEditView(project, el) {
         console.log(res);
         if (!res.ok) {
         }
-        $form.append('<input type="hidden" name="contents[id][]" value="' + res.body._id + '">');
+
+        showImage($form, res.body._id);
         self.value = '';
       });
     
@@ -121,12 +131,50 @@ function ProjectEditView(project, el) {
 
     upload.on('end', function(req) {
       var data = JSON.parse(req.responseText);
-      $form
-        .append('<input type="hidden" name="contents[id][]" value="' + data._id + '">');
+      showImage($form, data._id);
     });
 
     upload.to('/admin/contents');
   });
+
+  deleteContent();
+
+  $('#tags').val('');
+}
+
+function showImage($form, contentId){
+    var contents = $('ul#contents.thumbnails');
+    contents.append('\
+      <li class="span3">\
+        <div>\
+          <img src="/contents/'+contentId+'/image" style="width: 100px" class="media-object img-polaroid thumbnail">\
+          <a class="delete_image btn btn-danger" href="/admin/contents/'+contentId+'" content-id= "'+contentId+'" >delete</a> \
+        </div>\
+      </li>\
+    ');
+    appendContentHidden($form, contentId);
+}
+
+function deleteContent($form){
+  $(document).on('click', ' a.delete_image', function(e) {
+    var $delLink = $(this);
+    
+    request
+      .del($delLink.attr('href'))
+      .send()
+      .end(function(res){
+        console.log(res);
+        
+        $('input[name="contents[id][]"][value="'+$delLink.attr('content-id')+'"]').remove();
+        $delLink.parent().parent('li.span3').remove();
+      });
+
+    e.preventDefault();
+  });
+}
+
+function appendContentHidden($form,contentId){
+  $form.append('<input type="hidden" name="contents[id][]" value="' + contentId + '">');
 }
 
 /**

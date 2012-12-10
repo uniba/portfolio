@@ -27,7 +27,7 @@ exports.create = function(req, res) {
   var batch = new Batch()
     , project = new Project(req.body.project)
     , contents = req.body.contents;
-  
+  console.log('req.body:', req.body);
   project
     .set('_contents', contents.id)
     .save(function(err, project) {
@@ -58,6 +58,7 @@ exports.show = function(req, res) {
     .populate('_contents')
     .exec(function(err, project) {
       if (err) throw err;
+      console.log('project:', project);
       res.render('admin/projects/show', { title: project.title, project: project });
     });
 };
@@ -73,18 +74,20 @@ exports.edit = function(req, res) {
 
 exports.update = function(req, res) {
   var id = req.params.project
-    , attrs = req.body.project;
-  
+    , attrs = req.body.project
+    , contents = req.body.contents.id;
+  console.log('req.body:',req.body);
   Project
     .findOne({ _id: id })
     .exec(function(err, project) {
       if (err) throw err;
       if (!project) return res.send(404);
-      
+      //project.set('_contents', contents);
+      console.log('attrs:',attrs);
       Object.keys(attrs).forEach(function(key, index) {
         project.set(key, attrs[key]);
       });
-      
+      project.set('_contents', contents);
       project.save(function(err, project) {
         if (err) throw err;
         res.send(project);

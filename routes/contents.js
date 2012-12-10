@@ -7,7 +7,7 @@ exports.show = function(req, res) {
   Content
     .findOne({ _id: id })
     .exec(function(err, content) {
-      if (err) throw err;
+      if (err) res.send(500, 'err:'+err);
       res.send(content);
     });
 };
@@ -18,7 +18,13 @@ exports.image = function(req, res) {
   Content
     .findOne({ _id: id })
     .exec(function(err, content) {
-      res.type(content.get('mime'));
-      res.send(content.get('image'));
+      if (err) res.send(500, 'err:'+err);
+      console.log(content);
+      if(content){
+        res.type(content.get('mime'));
+        res.send(content.get('image'));
+      }else{
+        res.send(404, 'Sorry, we cannot find that!');
+      }
     });
 };

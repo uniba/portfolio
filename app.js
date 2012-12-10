@@ -101,6 +101,7 @@ app.get('/admin', routes.admin.projects.index);
 app.resource('admin/projects', routes.admin.projects);
 app.resource('admin/tags', routes.admin.tags);
 app.post('/admin/contents', routes.admin.contents.create);
+app.del('/admin/contents/:id', routes.admin.contents.delete);
 
 Object.keys(app.routes).forEach(function(method) {
   app.routes[method].forEach(function(route) {
