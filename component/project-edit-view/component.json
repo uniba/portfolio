@@ -3,8 +3,13 @@
   "description": "Project edit view component",
   "dependencies": {
     "component/view": "*",
+    "component/dom": "*",
+    "component/emitter": "*",
     "component/classes": "*",
-    "component/domify": "*"
+    "component/pillbox": "*",
+    "component/dropload": "*",
+    "visionmedia/superagent": "*",
+    "component/keyname": "*"
   },
   "scripts": ["index.js", "template.js"]
 }

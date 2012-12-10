@@ -6,22 +6,31 @@ var qs = require('querystring')
 module.exports = function(schema, options) {
   schema.pre('save', function(next) {
     var self = this
-      , json
+      , jsonUrl
       , videoId
-      , url = parse(this.get('url'));
+      , url = this.get('url');
+
+    if (null == url) return next();
+
+    url = parse(this.get('url'));
     
     if ('www.youtube.com' !== url.hostname) return next();
     
     videoId = qs.parse(url.query).v;
-    json = 'http://gdata.youtube.com/feeds/api/videos/' + videoId + '?alt=json';
+    jsonUrl = 'http://gdata.youtube.com/feeds/api/videos/' + videoId + '?alt=json';
     
-    request({ url: json, json: true }, function(err, res, body) {
+    request({ url: jsonUrl, json: true }, function(err, res, body) {
+      var thumbUrl = 'http://i.ytimg.com/vi/' + videoId + '/0.jpg';
+      
+      if (err) return next(err);
+      
       self
         .set('type', 'youtube')
         .set('extend', JSON.stringify(body))
         .set('title', body.entry.title.$t);
       
-      request({ url: 'http://i.ytimg.com/vi/' + videoId + '/0.jpg', encoding: 'binary' }, function(err, res, body) {
+      request({ url: thumbUrl, encoding: null }, function(err, res, body) {
+        if (err) return next(err);
         self
           .set('mime', res.headers['content-type'])
           .set('image', body);

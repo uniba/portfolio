@@ -14,7 +14,6 @@ var express = require('express')
   , nib = require('nib')
   , colors = require('colors')
   , routes = require('./routes')
-  , render_image = require('./routes/render_image')
   , admin = require('./routes/admin')
   , projects = require('./routes/admin/projects')
   , tags = require('./routes/admin/tags')
@@ -75,6 +74,11 @@ app.configure(function() {
   }
   if ('production' === app.get('env')) {
     app.use('/admin', basicAuth);
+    exec('make', function(err, stdout, stderr) {
+      console.log(stdout);
+      console.log(stderr);
+      console.log(' building components is done.');
+    });
   }
   
   app.use(app.router);
@@ -85,16 +89,18 @@ app.configure('development', function() {
   app.use(express.errorHandler());
 });
 
+app.locals.title = 'portfolio';
+app.locals.moment = require('moment');
+
 app.get('/projects', routes.projects.index);
 app.get('/projects/:id', routes.projects.show);
 app.get('/contents/:id', routes.contents.show);
 app.get('/contents/:id/image', routes.contents.image);
 
-app.get('/admin', routes.admin.index);
+app.get('/admin', routes.admin.projects.index);
 app.resource('admin/projects', routes.admin.projects);
 app.resource('admin/tags', routes.admin.tags);
-
-app.get('/render_image/:id/:name', render_image.show);
+app.post('/admin/contents', routes.admin.contents.create);
 
 Object.keys(app.routes).forEach(function(method) {
   app.routes[method].forEach(function(route) {

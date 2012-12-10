@@ -1,30 +1,23 @@
 extends ../layout
 
 block content
-  h2= title
-  ul
-    li
-      a(href='/admin/tags/') tag
-    li
-      a(href='/admin/projects/new') new project
-  table(class='table table-bordered')
-    caption Project List
-    tr
-      th title
-      th _id
-      th vimeos
-      th youtubes
-      th tags 
-      th show
-      th edit
-      each project in projects
-        tr
-          td= project.title
-          td= project._id
-          td= project.vimeos
-          td= project.youtubes
-          td= project.tags
-          td
-            a(href='/admin/projects/#{project._id}') show
-          td
-            a(href='/admin/projects/#{project._id}/edit') edit
+  h4= title
+  each project in projects
+    .media
+      a.pull-left(href='/admin/projects/#{project.id}')
+        if project._contents.length
+          img.media-object.img-polaroid(style='width: 100px;', src=project._contents[0].toDataURL())
+        else
+          img.media-object.img-polaroid(style='width: 100px;')
+      .media-body
+        .media-heading: h4= project.title || 'Untitled'
+        p.btn-group.pull-right
+          a.btn.btn-small(href='/admin/projects/#{project._id}')
+            | Show
+          a.btn.btn-small.btn-primary(href='/admin/projects/#{project._id}/edit')
+            i.icon-white.icon-pencil 
+            | Edit
+        p.pull-right: i: small= moment(project.created).fromNow()
+        p: small= project.tags.join(', ')
+        p(style='white-space: pre; min-height: 2em;')= project.description
+    hr

@@ -1,54 +1,41 @@
-- if (layout)
-  extends ../layout
+
+extends ../layout
 
 block content
+  form#form_project(data-project=project.toJSON() , method='POST', name='form_project', action='/admin/projects', enctype='multipart/form-data')
+    .row-fluid
+      .span6
+        fieldset
+          .control-group
+            label.control-label title:
+            .controls
+              input(type='text', name='project[title]')
+          .control-group
+            label.control-label description:
+            .controls
+              textarea(name='project[description]', cols=40, rows=4)
+          .control-group
+            label.control-label credits:
+            .controls
+              textarea(name='project[credits]', cols=40, rows=4)
+      .span6
+        fieldset
+          .control-group
+            label.control-label tags:
+            span.help-block enterを押すと複数入力できます。
+            .controls
+              input#tags(type='text', name='project[tags]')
+          .control-group
+            label.control-label contents:
+            span.help-block enterを押すと複数入力できます。
+            .controls
+              input#contents(type='text', name='project[contents]', placeholder='http://')
 
-  form(method='POST', action='/admin/projects/#{project._id}', enctype='multipart/form-data')
-    input(type='hidden', name='_method', value=method)
-    fieldset
-      div(class='control-group')
-        label(class='control-label') title:
-        div(class='controls')
-          input(type='text', name='project[title]', value= project.title)
+    .control-group
+      label.control-label images:
+      .controls
+        #drop
 
-      div(class='control-group')
-        label(class='control-label') description:
-        div(class='controls')
-          textarea(name='project[description]', cols=40, rows=4)
-            =project.description
-
-      div(class='control-group')
-        label(class='control-label') tags:
-        div(class='controls')
-          each tag in project.tags
-            input(type='text', name='project[tags]', value= tag)
-
-      div(class='control-group')
-        label(class='control-label') youtubes:
-        i(class="icon-warning-sign")
-        span(class="help-block") http://www.youtube.com/watch?v=V6_5waGGjXE
-        span(class="help-block") の 
-          span(class='label label-important') V6_5waGGjXE
-          を入力してください
-        div(class='controls')
-          each youtube in project.youtubes
-            input(type='text', name='project[youtubes]', value= youtube)
-
-      div(class='control-group')
-        label(class='control-label') vimeos:
-        i(class="icon-warning-sign")
-        span(class="help-block") http://vimeo.com/42261942
-        span(class="help-block") の 
-          span(class='label label-important') 42261942
-          を入力してください
-        div(class='controls')
-          each vimeo in project.vimeos
-            input(type='text', name='project[vimeos]', value= vimeo)
-
-      div(class='control-group')
-        label(class='control-label') images:
-        div(class='controls')
-          each image in project.images
-            input(type='file', name='project[images]', acccept='image/*')
-      
-      input(type='submit', value='submit', class='btn')
+    .form-actions
+      input(type='hidden', name='_method', value=method)
+      input.btn.btn-primary(type='submit', value='Submit')

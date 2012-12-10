@@ -4,5 +4,6 @@
   "dependencies": {
     "component/model": "*"
   },
-  "scripts": ["index.js"]
+  "scripts": ["index.js"],
+  "local": ["content-model"]
 }

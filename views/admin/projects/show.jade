@@ -1,37 +1,37 @@
 extends ../layout
 
 block content
-  table(class='table table-bordered') 
-    tr
-      th title
-      th tags 
-      th description
-    tr
-      td= project.title
-      td= project.tags
-      td= project.description
+  h4= project.title || 'Untitled'
+  table.table.table-condensed(data-project=JSON.stringify(project))
+    tbody
+      tr
+        th Description
+        td(style='white-space: pre;')= project.description || 'No description given.'
+      tr
+        th Credit
+        td(style='white-space: pre;')= project.credit || 'No credit given.'
+      tr
+        th Tags
+        td= project.tags.join(', ')
+      tr
+        th Created
+        td= project.created
+      tr
+        th Updated
+        td= project.updated
 
-  div 
-    h3 youtubes
-    -project.youtubes.forEach(function(youtube){
-      - if(youtube){
-        div
-          iframe(width='560', height='315', src='http://www.youtube.com/embed/#{youtube}', frameborder='0', allowfullscreen)
-      - }
-    -})
-
-  div
-    h3 vimeos
-    -project.vimeos.forEach(function(vimeo){
-      - if(vimeo){
-        div
-          iframe(src='http://player.vimeo.com/video/#{vimeo}?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff', width='560', height='315', frameborder='0', webkitAllowFullScreen, mozallowfullscreen, allowFullScreen)
-      - }
-    -})
-
-  div
-    h3 images
-    -imageNames.forEach(function(name, i){
-      div
-        img(src="/render_image/#{project._id}/#{name}", alt="")
-    -})
+  each content in project._contents
+    .media
+      a.pull-left
+        img.media-object.img-polaroid(src=content.toDataURL(), style='width: 100px;')
+      .media-body
+        strong.media-heading= content.title || 'Untitled'
+        if content.url
+          p: small: a(href=content.url)= content.url
+        else
+          p: small No URL given.
+  
+  .form-actions
+    a.btn.btn-small(href='/admin')
+      i.icon-chevron-left
+      | Back

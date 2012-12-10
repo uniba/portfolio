@@ -19,6 +19,6 @@ exports.image = function(req, res) {
     .findOne({ _id: id })
     .exec(function(err, content) {
       res.type(content.get('mime'));
-      res.send(new Buffer(content.get('image'), 'binary'));
+      res.send(content.get('image'));
     });
 };

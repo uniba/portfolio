@@ -13,6 +13,12 @@ var mongoose = require('mongoose')
 exports.mongoose = mongoose;
 
 /**
+ * Set debug flag.
+ */
+
+mongoose.set('debug', 'production' !== process.env.NODE_ENV);
+
+/**
  * Expose mongoose connection.
  */
 

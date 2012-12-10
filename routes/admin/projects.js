@@ -1,94 +1,65 @@
 
 var path = require('path')
   , fs = require('fs')
-  , base64id = require('base64id')
+  , Batch = require('batch')
   , models = require('../../models')
   , Project = models.Project
-  , Tag = models.Tag;
+  , Tag = models.Tag
+  , Content = models.Content;
 
 exports.index = function(req, res) {
-  Project.find()
+  Project
+    .find()
+    .populate('_contents', null, {}, { limit: 1 })
     .sort('-created')
     .exec(function(err, projects) {
       if (err) return res.send(500);
-      res.render('admin/projects/index', { title: 'project list', projects: projects });
+      res.render('admin/projects/index', { title: 'Listing projects', projects: projects });
     });
 };
 
-exports.new = function(req, res){
-  var project = {
-      _id: ''
-    , title: ''
-    , description: ''
-    , tags: ['', '', '']
-    , images: ['', '', '']
-    , youtubes: ['', '', '']
-    , vimeos: ['', '', '']
-  };
-
-  res.render('admin/projects/form', {title: 'project new', project: project, method: 'post' });
+exports.new = function(req, res) {
+  var project = new Project();
+  res.render('admin/projects/form', { title: 'New project', project: project, method: 'post' });
 };
 
 exports.create = function(req, res) {
-  var images = req.files.project.images || []
-    , imageDatas = {}
-    , tags = req.body.project.tags || []
-    , youtubes = req.body.project.youtubes || []
-    , vimeos = req.body.project.vimeos || [] ;
-
-  tags.forEach(function(tag) {
-    new Tag({
-      name: tag
-    }).save(function(err, tag) {
-      if (err) return console.log('Tag err');
+  var batch = new Batch()
+    , project = new Project(req.body.project)
+    , contents = req.body.contents;
+  
+  project
+    .set('_contents', contents.id)
+    .save(function(err, project) {
+      if (err) return res.send(500);
+      
+      contents.id.forEach(function(id) {
+        batch.push(function(done) {
+          Content
+            .findOne({ _id: id })
+            .exec(function(err, content) {
+              if (err) throw err;
+              content.set('_project', project._id).save(done);
+            });
+        });
+      });
+      
+      batch.end(function() {
+        res.redirect('/admin');
+      });
     });
-  });
-
-  var project =  new Project({
-      title: req.body.project.title
-    , description: req.body.project.description
-    , tags: tags
-    , youtubes: youtubes
-    , vimeos: vimeos
-  });
-
-  images.forEach(function(image) {
-    if (image.size) {
-      var image_path = image.path
-        , name = image.name;
-        //http://nodejs.org/api/all.html#all_buffer
-        // binaryはdeprecatedになるかも
-      var data = fs.readFileSync(image_path, 'binary');
-      //var data = fs.readFileSync(image_path);
-      new_name = base64id.generateId();
-      imageDatas[new_name] = {
-        data: data, 
-        ext: path.extname(name),
-      };
-    }
-  });
-  project.images = imageDatas;
-
-  project.save(function(err, project) {    
-    if (err) {
-      console.log('err:%s', err);
-      return res.send(500);
-    }
-    res.redirect('/admin/projects');
-  });
 };
 
 exports.show = function(req, res) {
-  var projectId = req.params.project;
+  var id = req.params.project;
   
-  Project.findOne({ _id: projectId }, function(err, project) {
-    if (err) return res.send('error: %s',err);
-    var imageNames = [];
-    for (key in project.images) {
-      imageNames.push(key);
-    };
-    res.render('admin/projects/show', { title: project.title, project: project, imageNames:imageNames });
-  });
+  Project
+    .findOne({ _id: id })
+    .populate('_contents')
+    .exec(function(err, project) {
+      if (err) throw err;
+      res.render('admin/projects/show', { title: project.title, project: project });
+    });
 };
 
 exports.edit = function(req, res) {
@@ -101,8 +72,24 @@ exports.edit = function(req, res) {
 };
 
 exports.update = function(req, res) {
-  //console.log(req.files.project.images);
-  res.send('update');
+  var id = req.params.project
+    , attrs = req.body.project;
+  
+  Project
+    .findOne({ _id: id })
+    .exec(function(err, project) {
+      if (err) throw err;
+      if (!project) return res.send(404);
+      
+      Object.keys(attrs).forEach(function(key, index) {
+        project.set(key, attrs[key]);
+      });
+      
+      project.save(function(err, project) {
+        if (err) throw err;
+        res.send(project);
+      });
+    });  
 };
 
 exports.destroy = function(req, res) {

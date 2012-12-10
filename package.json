@@ -6,20 +6,21 @@
     "start": "node app"
   },
   "dependencies": {
-    "express": "3.0.3",
+    "express": "~3.0.3",
     "ejs": "~0.8.3",
     "mongoose": "~3.4.0",
     "express-resource": "1.0.0",
     "pad-component": "~0.0.1",
     "colors": "0.6.0-1",
-    "express-partials": "0.0.6",
     "consolidate": "~0.5.0",
     "jade": "~0.27.7",
     "base64id": "0.1.0",
     "component": "~0.9.1",
     "nib": "~0.9.0",
     "stylus": "~0.31.0",
-    "request": "~2.12.0"
+    "request": "~2.12.0",
+    "batch": "~0.2.1",
+    "moment": "~1.7.2"
   },
   "devDependencies": {
     "node-dev": "~0.2.9"

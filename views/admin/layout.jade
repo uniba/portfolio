@@ -6,15 +6,21 @@ html(lang='ja')
     title= title
     link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
     link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.min.css')
-    script(src='/bootstrap/js/bootstrap.min.js')
-    // link(rel='stylesheet', href='/components/build.css')
+    // script(src='/bootstrap/js/bootstrap.min.js')
+    link(rel='stylesheet', href='/components/build.css')
     link(rel='stylesheet', href='/stylesheets/admin.css')
     script(src='/components/build.js')
-    // script require('boot')('admin');
+    script require('boot')('admin');
   body
     #wrap
       .container
-        block content
+        .navbar
+          .navbar-inner
+            a.brand(href='/admin') portfolio.uniba.jp
+            ul.nav
+              li.pull-right: a(href='/admin/projects/new') New project
+        div#body
+          block content
       #push
     #footer
       .container
