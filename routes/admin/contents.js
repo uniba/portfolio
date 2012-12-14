@@ -45,26 +45,33 @@ exports.create = function(req, res) {
 exports.delete = function(req, res){
   var id = req.params.id;
   console.log('content delete id:', id);
-  Content.findByIdAndRemove(id)
+  Content.findById(id)
     .populate('_project')
     .exec(function(err, content){
-      if (err) res.send({status: 'error'});
+      if (err) {
+         throw err;
+         //return res.send({status: 'error'});
+       }
+
       console.log('content:', content);
       console.log('_project:', content._project);
-      if(content._project){
-        
-        var project = content._project;
-        console.log('project._contents:',project._contents);
-        project._contents = removeElementFromArrayByValue(project._contents, content._id)
-        project.save(function(err, project){
-          if (err) res.send({status: 'error'});
-          res.send({status: 'success'});
-        });       
-      }else{
-        res.send({status: 'success'});
+      if (!content._project) {
+         throw err;
+         //return res.send({status: 'error'});
       }
-
-      
+      var project = content._project;
+      console.log('project._contents:',project._contents);
+      project._contents = removeElementFromArrayByValue(project._contents, content._id)
+      console.log('after project._contents:',project._contents);
+      project.save(function(err, project){
+        if (err){
+         throw err;
+         //return res.send({status: 'error'});
+       }
+        content.remove(function(err, content){
+          res.send({status: 'success'});        
+        });
+      });
     });
 }
 

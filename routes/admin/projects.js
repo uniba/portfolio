@@ -38,7 +38,11 @@ exports.create = function(req, res) {
           Content
             .findOne({ _id: id })
             .exec(function(err, content) {
-              if (err) throw err;
+              if (err) {
+                console.log('err!:', err, ':content:',content);
+                throw err;
+              }
+              console.log(':project:',project);
               content.set('_project', project._id).save(done);
             });
         });
