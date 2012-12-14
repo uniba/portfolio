@@ -1,5 +1,6 @@
 
-var models = require('../models')
+var debug = require('debug')('routes:contents')
+  , models = require('../models')
   , Content = models.Content;
 
 exports.show = function(req, res) {
@@ -7,7 +8,10 @@ exports.show = function(req, res) {
   Content
     .findOne({ _id: id })
     .exec(function(err, content) {
-      if (err) res.send(500, 'err:'+err);
+      if (err) {
+        debug('err:', err);
+        return res.send(500, {status: 'error', info:err });
+      }
       res.send(content);
     });
 };
@@ -18,7 +22,10 @@ exports.image = function(req, res) {
   Content
     .findOne({ _id: id })
     .exec(function(err, content) {
-      if (err) res.send(500, 'err:'+err);
+      if (err) {
+        debug('err:', err);
+        return res.send(500, {status: 'error', info:err });
+      }
       console.log(content);
       if(content){
         res.type(content.get('mime'));

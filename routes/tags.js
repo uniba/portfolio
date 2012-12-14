@@ -1,5 +1,6 @@
 
-var models = require('../models')
+var debug = require('debug')('routes:tags')
+  , models = require('../models')
   , Project = models.Project
   , Tag = models.Tag;
 
@@ -7,7 +8,10 @@ exports.index = function(req, res) {
   Tag.find()
     .sort('-created')
     .exec(function(err,tags) {
-      if (err) return res.send('error');
+      if (err) {
+        debug('err:', err);
+        return res.send(500, {status: 'error', info:err });
+      }
       res.render('tag/index.ejs', { title: 'tag list', tags: tags });
     });  
 };
@@ -22,13 +26,19 @@ exports.create = function(req, res) {
 
 exports.show = function(req, res) {
   Tag.findOne({ _id: req.params.tag }, function(err, tag) {
-    if (err) return res.send('error: %s', err);
+    if (err) {
+      debug('err:', err);
+      return res.send(500, {status: 'error', info:err });
+    }
     console.log([tag.name]);
     Project
       .find()
       .where('tags').in([tag.name])
       .exec(function(err, projects) {
-        if (err) return res.send('error: %s',err);
+        if (err) {
+          debug('err:', err);
+          return res.send(500, {status: 'error', info:err });
+        }
         res.render('tag/show.ejs', {
             title: 'tag show:' + tag.name
           , tag: tag 

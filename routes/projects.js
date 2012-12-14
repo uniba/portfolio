@@ -1,5 +1,6 @@
 
-var models = require('../models')
+var debug = require('debug')('routes:projects')
+  , models = require('../models')
   , Project = models.Project;
   
 exports.index = function(req, res) {
@@ -7,7 +8,10 @@ exports.index = function(req, res) {
     .find()
     .sort('-created')
     .exec(function(err, projects) {
-      if (err) return res.send(500, err);
+      if (err) {
+        debug('err:', err);
+        return res.send(500, {status: 'error', info:err });
+      }
       res.send(projects);
     });
 };
@@ -18,8 +22,14 @@ exports.show = function(req, res) {
   Project
     .findOne({ _id: id })
     .exec(function(err, project) {
-      if (err) throw err;
-      if (!project) return res.send(404);
+      if (err) {
+        debug('err:', err);
+        return res.send(500, {status: 'error', info:err });
+      }
+      if (!project) {
+        debug('err:', err);
+        return res.send(404, {status: 'error', info:'projectがありません' });
+      }
       res.send(project);
     });
 };
