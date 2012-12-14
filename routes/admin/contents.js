@@ -49,6 +49,7 @@ exports.delete = function(req, res){
     .populate('_project')
     .exec(function(err, content){
       if (err) {
+         console.log('52:err:',err);
          throw err;
          //return res.send({status: 'error'});
        }
@@ -56,6 +57,7 @@ exports.delete = function(req, res){
       console.log('content:', content);
       console.log('_project:', content._project);
       if (!content._project) {
+         console.log('59:err:',err);
          throw err;
          //return res.send({status: 'error'});
       }
@@ -65,6 +67,7 @@ exports.delete = function(req, res){
       console.log('after project._contents:',project._contents);
       project.save(function(err, project){
         if (err){
+         console.log('70:err:',err);
          throw err;
          //return res.send({status: 'error'});
        }

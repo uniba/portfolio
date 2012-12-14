@@ -43,7 +43,12 @@ exports.create = function(req, res) {
                 throw err;
               }
               console.log(':project:',project);
-              content.set('_project', project._id).save(done);
+              console.log('content before:',content);
+              content.set('_project', project._id).save(function(err, content){
+                console.log('save err:',err);
+                console.log('content save:',content);
+                done();
+              });
             });
         });
       });

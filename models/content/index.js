@@ -23,7 +23,7 @@ ContentSchema.methods.toDataURL = function() {
 };
 
 ContentSchema.pre('save', function(next) {
-  if (this.get('url') && this.get('image')) {
+  if ( !( this.get('url') || this.get('image') ) ) {
     return next(new Error('url or image required.'));
   }
   next();
