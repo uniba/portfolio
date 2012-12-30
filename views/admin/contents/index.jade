@@ -1,0 +1,8 @@
+extend ../layout
+
+block content
+  h4 Listing contents
+  
+  .isotope-container
+    each content in contents
+      img.img-polaroid(src='/contents/#{content.id || 0}/image')

@@ -100,6 +100,7 @@ app.get('/contents/:id/image', routes.contents.image);
 app.get('/admin', routes.admin.projects.index);
 app.resource('admin/projects', routes.admin.projects);
 app.resource('admin/tags', routes.admin.tags);
+app.get('/admin/contents', routes.admin.contents.index);
 app.post('/admin/contents', routes.admin.contents.create);
 app.del('/admin/contents/:id', routes.admin.contents.delete);
 

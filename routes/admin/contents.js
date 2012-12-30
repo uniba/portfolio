@@ -8,6 +8,15 @@ var fs = require('fs')
   , Project = models.Project
   , Content = models.Content;
 
+exports.index = function(req, res) {
+  Content
+    .find()
+    .exec(function(err, contents) {
+      if (err) throw err;
+      res.render('admin/contents', { contents: contents });
+    });
+};
+
 exports.create = function(req, res) {
   var url = req.body.url
     , files = req.files;
