@@ -9,5 +9,4 @@ var TagSchema = module.exports = new Schema({
   , created: { type: Date, default: Date.now, index: true }
 });
 
-
 TagSchema.plugin(lastMod);

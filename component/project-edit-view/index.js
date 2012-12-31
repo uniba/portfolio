@@ -41,12 +41,10 @@ function ProjectEditView(project, el) {
     project.tags().forEach(function(el, index) {
       self.tags.add(el);
     });
-
   }
   
   if (project._contents()) {
-    //console.log('project._contents():', project._contents());
-    project._contents().forEach(function(content){
+    project._contents().forEach(function(content) {
       console.log(content);
       showImage($form, content);
     })
@@ -142,7 +140,7 @@ function ProjectEditView(project, el) {
   $('#tags').val('');
 }
 
-function showImage($form, contentId){
+function showImage($form, contentId) {
     var contents = $('ul#contents.thumbnails');
     contents.append('\
       <li class="span3">\
@@ -155,7 +153,7 @@ function showImage($form, contentId){
     appendContentHidden($form, contentId);
 }
 
-function deleteContent($form){
+function deleteContent($form) {
   $(document).on('click', ' a.delete_image', function(e) {
     var $delLink = $(this);
     
@@ -173,7 +171,7 @@ function deleteContent($form){
   });
 }
 
-function appendContentHidden($form,contentId){
+function appendContentHidden($form,contentId) {
   $form.append('<input type="hidden" name="contents[id][]" value="' + contentId + '">');
 }
 
