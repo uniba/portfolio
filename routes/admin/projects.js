@@ -2,6 +2,7 @@
 var path = require('path')
   , fs = require('fs')
   , Batch = require('batch')
+  , debug = require('debug')('routes:admin:project')
   , models = require('../../models')
   , Project = models.Project
   , Tag = models.Tag
@@ -13,7 +14,10 @@ exports.index = function(req, res) {
     .populate('_contents', null, {}, { limit: 1 })
     .sort('-created')
     .exec(function(err, projects) {
-      if (err) return res.send(500);
+      if (err) {
+        debug('err:', err);
+        return res.send(500, {status: 'error', info:err });
+      }
       res.render('admin/projects/index', { title: 'Listing projects', projects: projects });
     });
 };
@@ -31,15 +35,27 @@ exports.create = function(req, res) {
   project
     .set('_contents', contents.id)
     .save(function(err, project) {
-      if (err) return res.send(500);
+      if (err) {
+        debug('err:', err);
+        return res.send(500, {status: 'error', info:err });
+      }
       
       contents.id.forEach(function(id) {
         batch.push(function(done) {
           Content
             .findOne({ _id: id })
             .exec(function(err, content) {
-              if (err) throw err;
-              content.set('_project', project._id).save(done);
+              if (err) {
+                debug('err:', err);
+                return res.send(500, {status: 'error', info:err });
+              }
+              content.set('_project', project._id).save(function(err, content){
+                if (err) {
+                  debug('err:', err);
+                  return res.send(500, {status: 'error', info:err });
+                }
+                done();
+              });
             });
         });
       });
@@ -57,7 +73,10 @@ exports.show = function(req, res) {
     .findOne({ _id: id })
     .populate('_contents')
     .exec(function(err, project) {
-      if (err) throw err;
+      if (err) {
+        debug('err:', err);
+        return res.send(500, {status: 'error', info:err });
+      }
       console.log('project:', project);
       res.render('admin/projects/show', { title: project.title, project: project });
     });
@@ -67,7 +86,10 @@ exports.edit = function(req, res) {
   var projectId = req.params.project;
   
   Project.findOne({ _id: projectId }, function(err, project) {
-    if (err) return res.send('error: %s', err);
+    if (err) {
+      debug('err:', err);
+      return res.send(500, {status: 'error', info:err });
+    }
     res.render('admin/projects/form', { title: project.title, project: project, method: 'put' });
   });
 };
@@ -80,16 +102,24 @@ exports.update = function(req, res) {
   Project
     .findOne({ _id: id })
     .exec(function(err, project) {
-      if (err) throw err;
-      if (!project) return res.send(404);
-      //project.set('_contents', contents);
-      console.log('attrs:',attrs);
+      if (err) {
+        debug('err:', err);
+        return res.send(500, {status: 'error', info:err });
+      }
+      if (!project) {
+        debug('err:', err);
+        return res.send(500, {status: 'error', info:err });
+      }
+      
       Object.keys(attrs).forEach(function(key, index) {
         project.set(key, attrs[key]);
       });
       project.set('_contents', contents);
       project.save(function(err, project) {
-        if (err) throw err;
+        if (err) {
+          debug('err:', err);
+          return res.send(500, {status: 'error', info:err });
+        }
         res.send(project);
       });
     });  
@@ -97,15 +127,4 @@ exports.update = function(req, res) {
 
 exports.destroy = function(req, res) {
   res.send('destroy forum ' + req.params.forum);
-};
-
-function chain() {
-  var fns = [].slice.call(arguments);
-  next();
-  function next() {
-    var fn = fns.shift()
-      , args = [].slice.call(arguments);
-    if (fns.length > 0) args = args.concat(next);
-    fn.apply(null, args);
-  }
 };
