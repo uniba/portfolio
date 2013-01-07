@@ -2,10 +2,29 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>PORTFOLIO Uniba Inc.</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/ProjectElement.js"></script>
   </head>
   <body>
-  
+  	<div id="canvas"></div>
   </body>
+  <script>
+  var url = "../projects";
+  $( document ).ready( function() {
+  	var container;
+  	container = document.getElementById( "canvas" );
+  	$.get( url, function( data ) {
+  		var projects = [];
+  		projects = data;
+  		projects.forEach( function( project ) {
+  			var p;
+  			p = new ProjectElement( project );
+  			p.dump();
+  			container.appendChild( p.domElement );
+  		});
+  	});
+  });
+  </script>
 </html>
