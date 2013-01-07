@@ -8,25 +8,33 @@ var ProjectElement = function( _data ) {
 	, description
 	, url
 	, reqUrl
+	, tags
 	, domElement
 	, contens;
 
 	contens = _data._contents;
 	this.title = _data.title;
 	this.description = _data._project;
-	//this.url = _data._contents.extend.url;
-	this.imgUrl = "./contents/" + contens[0]._id + "/image";
-	this.domElement = this.createDomElement();
+	this.url = ( contens[0].extend !== undefined ) ? contens[0].extend.url : "../";
+	this.imgUrl = "contents/" + contens[0]._id + "/image";
+	this.tags = _data.tags;
+
+	this.domElement = this.createDom();
 }
 
-ProjectElement.prototype.createDomElement = function() {
-	var dom
-	, img;
-  dom = document.createElement( "div" );
+ProjectElement.prototype.createDom = function() {
+	var div
+	, img
+	, dom;
+  div = document.createElement( "div" );
   img = document.createElement( "img" );
-  dom.appendChild( img );
+  dom = document.createElement( "a" );
   img.src = this.imgUrl;
-  dom.innerText = this.title;
+  dom.href = this.url;
+  dom.target = "top"
+  div.innerText = this.title;
+  div.appendChild( img );
+  dom.appendChild( div );
   return dom;
 };
 
