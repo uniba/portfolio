@@ -14,7 +14,7 @@ var ProjectElement = function( _data ) {
 
 	contens = _data._contents;
 	this.title = _data.title;
-	this.description = _data._project;
+	this.description = _data.description;
 	this.url = ( contens[0].extend !== undefined ) ? contens[0].extend.url : "../";
 	this.imgUrl = "contents/" + contens[0]._id + "/image";
 	this.tags = _data.tags;
@@ -23,18 +23,26 @@ var ProjectElement = function( _data ) {
 }
 
 ProjectElement.prototype.createDom = function() {
-	var div
+	var title
 	, img
+	, descriptionText
+	, aTag
 	, dom;
-  div = document.createElement( "div" );
+	dom = document.createElement( "div" );
+	dom.id = "pj_elem";
+	aTag = document.createElement( "a" )
+  title = document.createElement( "h1" );
+  descriptionText = document.createElement( "p" );
   img = document.createElement( "img" );
-  dom = document.createElement( "a" );
   img.src = this.imgUrl;
-  dom.href = this.url;
-  dom.target = "top"
-  div.innerText = this.title;
-  div.appendChild( img );
-  dom.appendChild( div );
+  aTag.href = this.url;
+  aTag.target = "top"
+  title.innerText = this.title;
+  aTag.appendChild( img );
+  descriptionText.innerText = this.description;
+  aTag.appendChild( title );
+  aTag.appendChild( descriptionText );
+  dom.appendChild( aTag );
   return dom;
 };
 
