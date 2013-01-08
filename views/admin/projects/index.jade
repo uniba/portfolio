@@ -6,7 +6,7 @@ block content
     .media
       a.pull-left(href='/admin/projects/#{project.id}')
         if project._contents.length
-          img.media-object.img-polaroid(style='width: 100px;', src=project._contents[0].toDataURL())
+          img.media-object.img-polaroid(style='width: 100px;', src='/contents/#{project._contents[0]._id}/image')
         else
           img.media-object.img-polaroid(style='width: 100px;')
       .media-body

@@ -23,7 +23,7 @@ block content
   each content in project._contents
     .media
       a.pull-left
-        img.media-object.img-polaroid(src=content.toDataURL(), style='width: 100px;')
+        img.media-object.img-polaroid(src='/contents/#{content._id}/image', style='width: 100px;')
       .media-body
         strong.media-heading= content.title || 'Untitled'
         if content.url
