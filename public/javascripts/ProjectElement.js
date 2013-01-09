@@ -30,7 +30,7 @@ ProjectElement.prototype.createDom = function() {
 		, dom;
 		
 	dom = document.createElement( "div" );
-	dom.id = "pj_elem";
+	dom.className = "pj_elem";
 	aTag = document.createElement( "a" )
   title = document.createElement( "h1" );
   descriptionText = document.createElement( "p" );

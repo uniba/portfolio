@@ -25,17 +25,10 @@ var setup3D = function() {
 
 		camera.position.z = 1000;
 
-//////////////////////TODO: elems が全部取得できない
-		elems = $("#pj_elem");
-		console.log(elems);
-
-//////////////////////////////////////////
+		elems = $(".pj_elem");
 
 		for ( var i = 0; i < elems.length; i++ ){
-			var threeElem
-				, cubeFace
-				, geom;
-			elems[i].style.paddingLeft = '250px';
+			var threeElem;
 			threeElem = new THREE.CSS3DObject( elems[i] );
 
 			materials.push( threeElem );
@@ -52,10 +45,6 @@ var setup3D = function() {
 		doc.appendChild( renderer.domElement );
 
 		window.addEventListener( 'resize', onWindowResize, false );
-
-		animating = false;
-		gridMode = true;
-
 	}
 
 	function onWindowResize() {
@@ -69,30 +58,6 @@ var setup3D = function() {
 	}
 
 	function animate() {
-		if ( !animating ){
-			for ( var i = 0; i < materials.length; i++ ) {
-				var object = materials[i];
-				if( gridMode ){
-					object.position.y -= 2;
-					object.rotation.y += 0.01;
-				} else {
-					object.position.y -= 5;
-					object.rotation.y += 0.02;
-				}
-				
-			}
-
-			for ( var i = 0; i < materials.length; i++ ) {
-				var object = materials[i];
-				if( object.position.y > imageSize * materials.length * 0.5){
-					object.position.y = -imageSize * materials.length * 0.5;
-				}
-				if( object.position.y < -imageSize * materials.length * 0.5){
-					object.position.y = imageSize * materials.length * 0.5;
-				}
-			}
-		}
-
 		requestAnimationFrame( animate );
 		render();
 	}
