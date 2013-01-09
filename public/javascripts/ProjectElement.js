@@ -4,13 +4,13 @@ ProjectElement.js
 
 var ProjectElement = function( _data ) {
 	var title
-	, imgUrl
-	, description
-	, url
-	, reqUrl
-	, tags
-	, domElement
-	, contens;
+		, imgUrl
+		, description
+		, url
+		, reqUrl
+		, tags
+		, domElement
+		, contens;
 
 	contens = _data._contents;
 	this.title = _data.title;
@@ -24,10 +24,11 @@ var ProjectElement = function( _data ) {
 
 ProjectElement.prototype.createDom = function() {
 	var title
-	, img
-	, descriptionText
-	, aTag
-	, dom;
+		, img
+		, descriptionText
+		, aTag
+		, dom;
+		
 	dom = document.createElement( "div" );
 	dom.id = "pj_elem";
 	aTag = document.createElement( "a" )

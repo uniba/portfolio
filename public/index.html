@@ -5,14 +5,18 @@
     <title></title>
     <link rel="stylesheet" href="/stylesheets/style.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    <script type="text/javascript" src="http://moxus.org/wp-content/themes/sirup/js/vendor/three.min.js"></script>
+    <script type="text/javascript" src="http://moxus.org/wp-content/themes/sirup/js/vendor/CSS3DRenderer.js"></script>
+    <script type="text/javascript" src="http://moxus.org/wp-content/themes/sirup/js/vendor/tween.min.js"></script>
     <script type="text/javascript" src="javascripts/ProjectElement.js"></script>
   </head>
   <body>
   	<div id="canvas"></div>
   </body>
+   <script type="text/javascript" src="javascripts/Layout.js"></script>
   <script>
   var url = "../projects";
-  $( document ).ready( function() {
+  $(function(){
   	var container;
   	container = document.getElementById( "canvas" );
   	$.get( url, function( data ) {
@@ -24,7 +28,9 @@
   			p.dump();
   			container.appendChild( p.domElement );
   		});
+      setup3D();
   	});
   });
   </script>
+ 
 </html>
