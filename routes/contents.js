@@ -35,3 +35,21 @@ exports.image = function(req, res) {
       res.send(content.get('image'));
     });
 };
+
+exports.pseudorandom = function(req, res) {
+  var query
+    , selected = []
+    , type = req.query.type || 'image'
+    , limit = req.query.limit || 3;
+  
+  Content
+    .find({ type: type }) // FIXME: potentially performance issue.
+    .exec(function(err, contents) {
+      if (err) return res.send(500);
+      while (contents.length && limit) {
+        selected.push(contents.splice(Math.random() * contents.length | 0, 1)[0]);
+        --limit;
+      }
+      res.render('contents/pseudorandom', { contents: selected });
+    });
+};

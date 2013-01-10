@@ -11,7 +11,7 @@ var path = require('path')
 exports.index = function(req, res) {
   Project
     .find()
-    .populate('_contents', null, {}, { limit: 1 })
+    .populate('_contents', { image: 0 }, {}, { limit: 1 })
     .sort('-created')
     .exec(function(err, projects) {
       if (err) {
@@ -71,7 +71,7 @@ exports.show = function(req, res) {
   
   Project
     .findOne({ _id: id })
-    .populate('_contents')
+    .populate('_contents', { image: 0 })
     .exec(function(err, project) {
       if (err) {
         debug('err:', err);
