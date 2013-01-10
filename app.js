@@ -22,6 +22,7 @@ var express = require('express')
 var app = express()
   , server = module.exports = http.createServer(app);
 
+
 app.configure(function() {
   var user = process.env.ADMIN_USERNAME || 'user'
     , pass = process.env.ADMIN_PASSWORD || 'pass'
@@ -51,7 +52,7 @@ app.configure(function() {
       args[1] = args[1] || {};
       args[1].layout = false // !!res.req.get('X-PJAX');
       args[1].pretty = true;
-      console.log(args[1]);
+      // console.log(args[1]);
       return render.apply(res, args);
     };
     
@@ -94,6 +95,7 @@ app.locals.moment = require('moment');
 
 app.get('/projects', routes.projects.index);
 app.get('/projects/:id', routes.projects.show);
+app.get('/contents/pseudorandom', routes.contents.pseudorandom);
 app.get('/contents/:id', routes.contents.show);
 app.get('/contents/:id/image', routes.contents.image);
 
