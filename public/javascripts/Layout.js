@@ -14,23 +14,26 @@ var setup3D = function() {
 		, animating
 		, gridMode
 		, scene
-		, imageSize;
+		, scrollSpeed
+		,	mouseX;
 
 	function init() {
 		duration = 0.2;
+		scrollSpeed = 400;
 		camera = new THREE.PerspectiveCamera( 45, window.width / window.height, 0.0002, 80000 );
 		renderer = new THREE.CSS3DRenderer();
 		scene = new THREE.Scene();
 		materials = [];
 
-		camera.position.z = 1000;
+		camera.position.z = 1500;
 
 		elems = $(".pj_elem");
 
 		for ( var i = 0; i < elems.length; i++ ){
 			var threeElem;
 			threeElem = new THREE.CSS3DObject( elems[i] );
-
+			threeElem.position.x = i * 500 ;
+			threeElem.element.style.opacity = 0.2 * i;
 			materials.push( threeElem );
 			scene.add( threeElem );
 		}
@@ -41,6 +44,7 @@ var setup3D = function() {
 		renderer.domElement.style.position = 'absolute';
 		renderer.domElement.style.top = 0;
 		renderer.domElement.style.overflow = 'visible';
+
 		var doc = document.getElementById( "canvas" );
 		doc.appendChild( renderer.domElement );
 
@@ -58,6 +62,16 @@ var setup3D = function() {
 	}
 
 	function animate() {
+		$(function(){
+			for( var i = 0; i < materials.length; i++ ){
+				materials[i].position.x -= scrollSpeed;
+				if( materials[i].position.x < -1250 ) materials[i].position.x = 1250;
+				materials[i].element.style.opacity = ( 1000 - materials[i].position.x ) * 0.001;
+			}
+
+			scrollSpeed *= 0.96;
+			if( scrollSpeed < 2 ) scrollSpeed = 2;
+		});
 		requestAnimationFrame( animate );
 		render();
 	}
